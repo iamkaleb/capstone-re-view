@@ -1,7 +1,8 @@
 import React from 'react';
+import Welcome from './auth/Welcome'
 
 const Review = () => {
-    return <h1>Re-view</h1>
+    return <Welcome />
 }
 
 export default Review

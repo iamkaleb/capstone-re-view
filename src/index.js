@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Re-view from 'Re-view'
+import Review from './components/Review'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Re-view />
+    <Review />
   </React.StrictMode>,
   document.getElementById('root')
 );
