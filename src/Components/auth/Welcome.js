@@ -1,25 +1,25 @@
-import React, {useState} from 'react'
-import ReactDOM from 'react-dom';
-// import ToggleContent from '../ToggleContent'
-import Modal from '../Modal'
-// import SignUpForm from './SignUpForm'
+import React from 'react'
+import {createPortal} from 'react-dom';
+import SignUpForm from './SignUpForm'
 
-const Welcome = () => {
-    const [showModal, setShowModal] = useState(false);
-
+const Welcome = props => {
     const toggleModal = () => {
-        showModal ? setShowModal(false) : setShowModal(true)
+        props.showModal ? props.setShowModal(false) : props.setShowModal(true)
     }
 
-    const modalRoot = document.getElementById('modal');
+    const modalDiv = document.getElementById('modal');
 
-    const Outsider = () => {
-        ReactDOM.createPortal(<Modal />, modalRoot)
-    }
     return (
         <>
             <h1>Re-view</h1>
-            <Outsider onClose={toggleModal}/>
+            {props.showModal
+            ? createPortal(<SignUpForm 
+                                toggleModal={toggleModal} 
+                                setUser={props.setUser} 
+                                hasUser={props.hasUser}
+                            />, modalDiv)
+            : null
+            }
             <button type="button" onClick={toggleModal}>Sign up</button>
         </>
     )

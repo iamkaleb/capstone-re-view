@@ -33,7 +33,7 @@ export default {
     },
 
     getUsername (username) {
-        return fetch(`${remoteURL}/employees?username=${username}`)
+        return fetch(`${remoteURL}/users?username=${username}`)
                 .then(response => response.json())
     },
 
@@ -45,5 +45,5 @@ export default {
     getWithExpand(collection1, id, collection2) {
         return fetch(`${remoteURL}/${collection1}/${id}?_expand=${collection2}`)
                     .then(response => response.json())
-    } 
+    },
 }
