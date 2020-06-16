@@ -5,7 +5,7 @@ import LoginForm from './LoginForm'
 
 const Welcome = props => {
     
-    const [credentials, setCredentials] = useState({username:"", password: ""})
+    const [credentials, setCredentials] = useState({username: "", password: ""})
         
     const handleSettingCredentials = event => {
         const stateToChange = {...credentials};
@@ -29,6 +29,7 @@ const Welcome = props => {
             {props.showSignUpForm
             ? createPortal(<SignUpForm
                                 credentials={credentials}
+                                setCredentials={setCredentials}
                                 handleSettingCredentials={handleSettingCredentials}
                                 toggleSignUpForm={toggleSignUpForm} 
                                 setUser={props.setUser} 

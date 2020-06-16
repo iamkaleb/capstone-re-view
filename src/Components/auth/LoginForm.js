@@ -9,14 +9,14 @@ const LoginForm = props => {
         if (props.credentials.username === "" || props.credentials.password === "") {
             window.alert('Please complete all fields');
         } else {
-            dataManager.getUsername(props.credentials.username)
+            dataManager.getByProperty('users', 'username', props.credentials.username)
                 .then(userArr => {
-                    if (userArr.length < 0) {
+                    if (userArr.length <= 0) {
                         window.alert('Username does not exist')
                     } else if (props.credentials.password !== userArr[0].password) {
                         window.alert('Incorrect password')
                     } else {
-                        props.setUser(props.credentials)
+                        props.setUser(userArr[0].id)
                     }
                 })
         }
@@ -32,7 +32,7 @@ return (
             <input onChange={props.handleSettingCredentials} type='text' id='password' />
 
             <button type='submit' id='sign-up' onClick={handleLogin}>Log in</button>
-            <button id='cancel' onClick={props.toggleModal}>Cancel</button>
+            <button id='cancel' onClick={props.toggleLoginForm}>Cancel</button>
         </form>
     </>
 )

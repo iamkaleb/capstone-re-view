@@ -19,13 +19,14 @@ const SignUpForm = props => {
         } else if (props.credentials.password !== confirmPass) {
             window.alert('Passwords do not match');
         } else {
-            dataManager.getUsername(props.credentials.username)
+            dataManager.getByProperty('users', 'username', props.credentials.username)
                 .then(userArr => {
                     if (userArr.length > 0) {
                         window.alert('Username is unavailable')
                     } else {
                         dataManager.post('users', props.credentials)
-                        .then(props.setUser(props.credentials))
+                        .then(() => {return dataManager.getByProperty('users', 'username', props.credentials.username)})
+                        .then(userArr => props.setUser(userArr[0].id))
                     }
                 })
         }
@@ -44,7 +45,7 @@ return (
             <input onChange={handleSettingConfirmPass} type='text' id='confirmPassword' />
 
             <button type='submit' id='sign-up' onClick={handleSignUp}>Sign up</button>
-            <button id='cancel' onClick={props.toggleModal}>Cancel</button>
+            <button id='cancel' onClick={props.toggleSignUpForm}>Cancel</button>
         </form>
     </>
 )
