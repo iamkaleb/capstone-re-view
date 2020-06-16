@@ -8,6 +8,11 @@ const ApplicationViews = props => {
 
     const [categories, setCategories] = useState([]);
 
+    const getCategories = () => {
+        return dataManager.getByProperty('categories', 'userId', parseInt(sessionStorage.getItem('user')))
+        .then(categoriesArr => setCategories(categoriesArr.sort((a, b) => (a.categoryTitle > b.categoryTitle) ? 1 : -1)))
+    }
+
     return (
         <>
             <Route
@@ -18,9 +23,12 @@ const ApplicationViews = props => {
                     <>    
                         <CategoryList 
                             categories={categories}
-                            setCategories={setCategories}
+                            getCategories={getCategories}
                         />
-                        <VideoList />
+                        <VideoList 
+                            categories={categories}
+                            getCategories={getCategories}
+                        />
                     </>
                     )
                 }}

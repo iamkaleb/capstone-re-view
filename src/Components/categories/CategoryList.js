@@ -7,13 +7,8 @@ const CategoryList = props => {
 
     const [showCategoryForm, setShowCategoryForm] = useState(false);
 
-    const getCategories = () => {
-        return dataManager.getByProperty('categories', 'userId', parseInt(sessionStorage.getItem('user')))
-        .then(categoriesArr => props.setCategories(categoriesArr.sort((a, b) => (a.categoryTitle > b.categoryTitle) ? 1 : -1)))
-    }
-
     useEffect(() => {
-        getCategories();
+        props.getCategories();
     }, [])
 
     const toggleCategoryForm = () => {
@@ -28,7 +23,7 @@ const CategoryList = props => {
             {showCategoryForm
                 ? createPortal(<CategoryForm
                                     categories={props.categories}
-                                    getCategories={getCategories}
+                                    getCategories={props.getCategories}
                                     toggleCategoryForm={toggleCategoryForm}
                                 />, modalDiv)
                 : null
