@@ -1,37 +1,29 @@
 import React, {useState} from 'react';
 import dataManager from '../../modules/dataManager'
 
-const SignUpForm = props => {
+const LoginForm = props => {
     const [credentials, setCredentials] = useState({username:"", password: ""})
-    const [confirmPass, setConfirmPass] = useState("")
-    
+
     const handleSettingCredentials = event => {
         const stateToChange = {...credentials};
         stateToChange[event.target.id] = event.target.value;
         setCredentials(stateToChange);
     };
 
-    const handleSettingConfirmPass = event => {
-        let stateToChange = ""
-        stateToChange = event.target.value;
-        setConfirmPass(stateToChange)
-    }
-
-    const handleSignUp = event => {
+    const handleLogin = event => {
         event.preventDefault();
 
-        if (credentials.username === "" || credentials.password === "" || confirmPass === "") {
+        if (credentials.username === "" || credentials.password === "") {
             window.alert('Please complete all fields');
-        } else if (credentials.password !== confirmPass) {
-            window.alert('Passwords do not match');
         } else {
             dataManager.getUsername(credentials.username)
                 .then(userArr => {
-                    if (userArr.length > 0) {
-                        window.alert('Username is unavailable')
+                    if (userArr.length < 0) {
+                        window.alert('Username does not exist')
+                    } else if (credentials.password !== userArr[0].password) {
+                        window.alert('Incorrect password')
                     } else {
-                        dataManager.post('users', credentials)
-                        .then(props.setUser(credentials))
+                        props.setUser(credentials)
                     }
                 })
         }
@@ -46,14 +38,11 @@ return (
             <label htmlFor='password'>Password </label>
             <input onChange={handleSettingCredentials} type='text' id='password' />
 
-            <label htmlFor='confirmPassword'>Confirm Password </label>
-            <input onChange={handleSettingConfirmPass} type='text' id='confirmPassword' />
-
-            <button type='submit' id='sign-up' onClick={handleSignUp}>Sign up</button>
+            <button type='submit' id='sign-up' onClick={handleLogin}>Log in</button>
             <button id='cancel' onClick={props.toggleModal}>Cancel</button>
         </form>
     </>
 )
 }
 
-export default SignUpForm
+export default LoginForm
