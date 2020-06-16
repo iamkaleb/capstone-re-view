@@ -32,8 +32,8 @@ export default {
         }).then(response => response.json())
     },
 
-    getUsername (username) {
-        return fetch(`${remoteURL}/users?username=${username}`)
+    getByProperty (collection, key, value) {
+        return fetch(`${remoteURL}/${collection}?${key}=${value}`)
                 .then(response => response.json())
     },
 
