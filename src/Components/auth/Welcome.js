@@ -1,10 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {createPortal} from 'react-dom';
 import SignUpForm from './SignUpForm'
+import LoginForm from './LoginForm'
 
 const Welcome = props => {
-    const toggleModal = () => {
-        props.showModal ? props.setShowModal(false) : props.setShowModal(true)
+    
+    const [credentials, setCredentials] = useState({username:"", password: ""})
+        
+    const handleSettingCredentials = event => {
+        const stateToChange = {...credentials};
+        stateToChange[event.target.id] = event.target.value;
+        setCredentials(stateToChange);
+    };
+
+    const toggleSignUpForm = () => {
+        props.showSignUpForm ? props.setShowSignUpForm(false) : props.setShowSignUpForm(true)
+    }
+
+    const toggleLoginForm = () => {
+        props.showLoginForm ? props.setShowLoginForm(false) : props.setShowLoginForm(true)
     }
 
     const modalDiv = document.getElementById('modal');
@@ -12,15 +26,28 @@ const Welcome = props => {
     return (
         <>
             <h1>Re-view</h1>
-            {props.showModal
-            ? createPortal(<SignUpForm 
-                                toggleModal={toggleModal} 
+            {props.showSignUpForm
+            ? createPortal(<SignUpForm
+                                credentials={credentials}
+                                handleSettingCredentials={handleSettingCredentials}
+                                toggleSignUpForm={toggleSignUpForm} 
                                 setUser={props.setUser} 
                                 hasUser={props.hasUser}
                             />, modalDiv)
             : null
             }
-            <button type="button" onClick={toggleModal}>Sign up</button>
+            <button type="button" onClick={toggleSignUpForm}>Sign up</button>
+            {props.showLoginForm
+            ? createPortal(<LoginForm
+                                credentials={credentials}
+                                handleSettingCredentials={handleSettingCredentials}
+                                toggleLoginForm={toggleLoginForm} 
+                                setUser={props.setUser} 
+                                hasUser={props.hasUser}
+                            />, modalDiv)
+            : null
+            }
+            <button type="button" onClick={toggleLoginForm}>Log in</button> 
         </>
     )
 }

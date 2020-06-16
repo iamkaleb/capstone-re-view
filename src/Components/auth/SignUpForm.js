@@ -2,14 +2,8 @@ import React, {useState} from 'react';
 import dataManager from '../../modules/dataManager'
 
 const SignUpForm = props => {
-    const [credentials, setCredentials] = useState({username:"", password: ""})
+
     const [confirmPass, setConfirmPass] = useState("")
-    
-    const handleSettingCredentials = event => {
-        const stateToChange = {...credentials};
-        stateToChange[event.target.id] = event.target.value;
-        setCredentials(stateToChange);
-    };
 
     const handleSettingConfirmPass = event => {
         let stateToChange = ""
@@ -20,18 +14,18 @@ const SignUpForm = props => {
     const handleSignUp = event => {
         event.preventDefault();
 
-        if (credentials.username === "" || credentials.password === "" || confirmPass === "") {
+        if (props.credentials.username === "" || props.credentials.password === "" || confirmPass === "") {
             window.alert('Please complete all fields');
-        } else if (credentials.password !== confirmPass) {
+        } else if (props.credentials.password !== confirmPass) {
             window.alert('Passwords do not match');
         } else {
-            dataManager.getUsername(credentials.username)
-                .then(user => {
-                    if (user.length > 0) {
+            dataManager.getUsername(props.credentials.username)
+                .then(userArr => {
+                    if (userArr.length > 0) {
                         window.alert('Username is unavailable')
                     } else {
-                        dataManager.post('users', credentials)
-                        .then(props.setUser(credentials))
+                        dataManager.post('users', props.credentials)
+                        .then(props.setUser(props.credentials))
                     }
                 })
         }
@@ -41,10 +35,10 @@ return (
     <>
         <form>
             <label htmlFor='username'>Username </label>
-            <input onChange={handleSettingCredentials} type='text' id='username' />
+            <input onChange={props.handleSettingCredentials} type='text' id='username' />
 
             <label htmlFor='password'>Password </label>
-            <input onChange={handleSettingCredentials} type='text' id='password' />
+            <input onChange={props.handleSettingCredentials} type='text' id='password' />
 
             <label htmlFor='confirmPassword'>Confirm Password </label>
             <input onChange={handleSettingConfirmPass} type='text' id='confirmPassword' />

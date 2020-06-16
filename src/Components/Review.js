@@ -13,7 +13,9 @@ const Review = () => {
         setHasUser(isAuthenticated());
     }
 
-    const [showModal, setShowModal] = useState(false);
+    const [showSignUpForm, setShowSignUpForm] = useState(false);
+
+    const [showLoginForm, setShowLoginForm] = useState(false);
 
     return (
         <>
@@ -21,8 +23,10 @@ const Review = () => {
             ? <Welcome
                 setUser={setUser}
                 hasUser={hasUser}
-                showModal={showModal}
-                setShowModal={setShowModal}
+                showSignUpForm={showSignUpForm}
+                showLoginForm={showLoginForm}
+                setShowSignUpForm={setShowSignUpForm}
+                setShowLoginForm={setShowLoginForm}
             />
             : null}
             {hasUser
