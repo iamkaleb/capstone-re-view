@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {createPortal} from 'react-dom'
 import CategoryForm from './CategoryForm'
-import dataManager from '../../modules/dataManager'
 
 const CategoryList = props => {
 
@@ -9,7 +8,7 @@ const CategoryList = props => {
 
     useEffect(() => {
         props.getCategories();
-    }, [])
+    })
 
     const toggleCategoryForm = () => {
         showCategoryForm ? setShowCategoryForm(false) : setShowCategoryForm(true)
