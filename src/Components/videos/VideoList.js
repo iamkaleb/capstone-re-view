@@ -32,7 +32,7 @@ const VideoList = props => {
                                     categories={props.categories}
                                     getCategories={props.getCategories}
                                     videos={videos}
-                                    setVideos={setVideos}
+                                    getVideos={getVideos}
                                     toggleVideoForm={toggleVideoForm}
                                 />, modalDiv)
                 : null
