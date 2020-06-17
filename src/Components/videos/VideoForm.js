@@ -3,7 +3,7 @@ import dataManager from '../../modules/dataManager'
 
 const VideoForm = props => {
 
-    const [video, setVideo] = useState({"videoTitle": "", "url": "", "categoryId": undefined, "userId": parseInt(sessionStorage.getItem('user'))})
+    const [video, setVideo] = useState({"videoTitle": "", "url": "", "categoryId": 0, "userId": parseInt(sessionStorage.getItem('user'))})
     const [category, setCategory] = useState({"categoryTitle": "", "userId": parseInt(sessionStorage.getItem('user'))})
     const [isLoading, setIsLoading] = useState(false);
 
@@ -28,17 +28,18 @@ const VideoForm = props => {
 
         if (video.videoTitle === "" || video.url === "") {
             window.alert('Please complete all fields!');
-        } else if (video.categoryId === undefined && category.categoryTitle === "") {
+        } else if (video.categoryId === 0 && category.categoryTitle === "") {
             window.alert('Please either choose an existing category or add a new one')
-        } else if (video.categoryId !== undefined && category.categoryTitle !== "") {
+        } else if (video.categoryId !== 0 && category.categoryTitle !== "") {
             window.alert('Please either choose an existing category or add a new one—not both!')
         } else if (props.videos.some(stateVideo => stateVideo.videoTitle === video.videoTitle)){
             window.alert('A video by that name already exists!')
-        } else if (video.categoryId !== undefined) {
+        } else if (video.categoryId !== 0) {
             setIsLoading(true)
             dataManager.post('videos', video)
             .then(() => {
                 props.getVideos();
+                props.toggleVideoForm();
             })
         } else if (category.categoryTitle !== "") {
             if (props.categories.some(sommedCategory => sommedCategory.categoryTitle === category.categoryTitle)) {
@@ -50,15 +51,17 @@ const VideoForm = props => {
                     const newVideo = {...video}
                     newVideo.categoryId = createdCategory.id
                     dataManager.post('videos', newVideo)
-                    // .then(() => {
-                    //     props.getVideos();
-                    // })
+                    .then(() => {
+                        props.getCategories();
+                        props.getVideos();
+                        props.toggleVideoForm();
+                    })
                 })
                 }
             };
         };
 
-    useEffect(() => {props.getCategories()}, []);
+    useEffect(() => {props.getCategories()});
 
 return (
     <>
@@ -72,7 +75,7 @@ return (
             <input onChange={handleSettingVideo} type='url' id='url' />
 
             <select value={video.categoryId} id="categoryId" onChange={handleSettingVideo}>
-                <option value={undefined}>Choose category</option>
+                <option value={0}>Choose category</option>
                 {props.categories.map(mappedCategory => <option key={mappedCategory.id} value={mappedCategory.id}>{mappedCategory.categoryTitle}</option>)}
             </select>
 

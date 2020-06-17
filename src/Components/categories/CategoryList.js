@@ -8,7 +8,7 @@ const CategoryList = props => {
 
     useEffect(() => {
         props.getCategories();
-    }, [])
+    })
 
     const toggleCategoryForm = () => {
         showCategoryForm ? setShowCategoryForm(false) : setShowCategoryForm(true)

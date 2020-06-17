@@ -38,10 +38,11 @@ const VideoList = props => {
                 : null
             }
             <button type="button" onClick={toggleVideoForm}>New video</button>
-            {props.categories.map(category =>
+            {props.categories.map(mappedCategory =>
                 <VideoDeck
-                    key={category.id}
-                    category={category}
+                    videos={videos}
+                    key={mappedCategory.id}
+                    category={mappedCategory}
                 />
             )}
         </>
