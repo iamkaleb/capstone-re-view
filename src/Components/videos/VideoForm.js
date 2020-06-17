@@ -46,16 +46,14 @@ const VideoForm = props => {
             } else {
                 setIsLoading(true)
                 dataManager.post('categories', category)
-                .then(() => {return dataManager.getByProperty('categories', 'categoryTitle', category.categoryTitle)})
-                .then(categoryArr => {
-                    const stateToChange = {...video}
-                    stateToChange.categoryId = categoryArr[0].id
-                    setVideo(stateToChange)
-                    dataManager.post('videos', video)
-                    .then(() => {
-                        props.getVideos();
-                    })
-                    })
+                .then(createdCategory => {
+                    const newVideo = {...video}
+                    newVideo.categoryId = createdCategory.id
+                    dataManager.post('videos', newVideo)
+                    // .then(() => {
+                    //     props.getVideos();
+                    // })
+                })
                 }
             };
         };
