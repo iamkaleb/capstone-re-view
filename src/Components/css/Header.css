@@ -8,11 +8,11 @@ header {
 }
 
 .logo {
-    color: ghostwhite;
+    color: white;
     text-align: center;
 }
 
 .logout {
     align-self: flex-end;
-    color: ghostwhite;
+    color: white;
 }
