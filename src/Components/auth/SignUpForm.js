@@ -28,7 +28,7 @@ const SignUpForm = props => {
                         .then(() => {return dataManager.getByProperty('users', 'username', props.credentials.username)})
                         .then(userArr => {
                             props.setUser(userArr[0].id)
-                            props.toggleSignUpForm()
+                            props.history.push('/videos')
                         })
                     }
                 })

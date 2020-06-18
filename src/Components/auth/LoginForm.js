@@ -17,7 +17,7 @@ const LoginForm = props => {
                         window.alert('Incorrect password')
                     } else {
                         props.setUser(userArr[0].id)
-                        props.toggleLoginForm()
+                        props.history.push('/videos')
                     }
                 })
         }
