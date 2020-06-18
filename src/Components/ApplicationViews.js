@@ -3,6 +3,7 @@ import {Route} from 'react-router-dom';
 import VideoList from './videos/VideoList';
 import CategoryList from './categories/CategoryList';
 import dataManager from '../modules/dataManager';
+import './css/MainPage.css'
 
 const ApplicationViews = props => {
 
@@ -20,7 +21,7 @@ const ApplicationViews = props => {
                 path='/'
                 render={props => {
                     return (
-                    <>    
+                    <article className='main-page'>  
                         <CategoryList 
                             categories={categories}
                             getCategories={getCategories}
@@ -29,7 +30,7 @@ const ApplicationViews = props => {
                             categories={categories}
                             getCategories={getCategories}
                         />
-                    </>
+                    </article>
                     )
                 }}
             />

@@ -26,7 +26,10 @@ const SignUpForm = props => {
                     } else {
                         dataManager.post('users', props.credentials)
                         .then(() => {return dataManager.getByProperty('users', 'username', props.credentials.username)})
-                        .then(userArr => props.setUser(userArr[0].id))
+                        .then(userArr => {
+                            props.setUser(userArr[0].id)
+                            props.toggleSignUpForm()
+                        })
                     }
                 })
         }
