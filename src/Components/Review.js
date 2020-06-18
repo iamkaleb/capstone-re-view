@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import Welcome from './auth/Welcome'
 import ApplicationViews from './ApplicationViews'
-import Header from './Header'
 
-const Review = props => {
+const Review = () => {
+
     const isAuthenticated = () => sessionStorage.getItem('user') !== null;
 
     const [hasUser, setHasUser] = useState(isAuthenticated());
@@ -18,33 +17,11 @@ const Review = props => {
         setHasUser(isAuthenticated());
       }
 
-    const [showSignUpForm, setShowSignUpForm] = useState(false);
-
-    const [showLoginForm, setShowLoginForm] = useState(false);
-
-    return (
-        <>
-            {!hasUser
-            ? <Welcome
+    return <ApplicationViews 
+                hasUser={hasUser} 
                 setUser={setUser}
-                hasUser={hasUser}
-                showSignUpForm={showSignUpForm}
-                showLoginForm={showLoginForm}
-                setShowSignUpForm={setShowSignUpForm}
-                setShowLoginForm={setShowLoginForm}
-                {...props}
+                clearUser={clearUser}
             />
-            : null}
-
-            {hasUser
-            ? <Header clearUser={clearUser}/>
-            : null}
-
-            {hasUser
-            ? <ApplicationViews />
-            : null}
-        </>
-    );
 };
 
 export default Review

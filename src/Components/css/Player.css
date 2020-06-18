@@ -1,0 +1,38 @@
+.video-player {
+    display: grid;
+    grid-template-rows: 360px;
+    grid-template-columns: 640px;
+    grid-template-areas:
+        'react-player .'
+        'annotation-form .'
+}
+
+.react-player {
+    grid-area: react-player
+}
+
+.annotation-form {
+    grid-area: annotation-form;
+}
+
+.annotation-form {
+    display: grid;
+    grid-template-rows: 25px auto 22.5px;
+    grid-template-columns: 60px 200px 150px auto;
+    grid-template-areas: 
+        'annotation-title annotation-title annotation-title .'
+        'annotation-content annotation-content annotation-content .'
+        'annotation-submit . . .'
+}
+
+.annotation-title {
+    grid-area: annotation-title;
+}
+
+.annotation-content {
+    grid-area: annotation-content;
+}
+
+.annotation-submit {
+    grid-area: annotation-submit;
+}

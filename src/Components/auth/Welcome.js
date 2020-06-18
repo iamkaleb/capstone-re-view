@@ -6,6 +6,8 @@ import LoginForm from './LoginForm'
 const Welcome = props => {
     
     const [credentials, setCredentials] = useState({username: "", password: ""})
+    const [showSignUpForm, setShowSignUpForm] = useState(false);
+    const [showLoginForm, setShowLoginForm] = useState(false);
         
     const handleSettingCredentials = event => {
         const stateToChange = {...credentials};
@@ -14,11 +16,11 @@ const Welcome = props => {
     };
 
     const toggleSignUpForm = () => {
-        props.showSignUpForm ? props.setShowSignUpForm(false) : props.setShowSignUpForm(true)
+        showSignUpForm ? setShowSignUpForm(false) : setShowSignUpForm(true)
     }
 
     const toggleLoginForm = () => {
-        props.showLoginForm ? props.setShowLoginForm(false) : props.setShowLoginForm(true)
+        showLoginForm ? setShowLoginForm(false) : setShowLoginForm(true)
     }
 
     const modalDiv = document.getElementById('modal');
@@ -26,7 +28,7 @@ const Welcome = props => {
     return (
         <>
             <h1>Re-view</h1>
-            {props.showSignUpForm
+            {showSignUpForm
             ? createPortal(<SignUpForm
                                 credentials={credentials}
                                 setCredentials={setCredentials}
@@ -39,7 +41,7 @@ const Welcome = props => {
             : null
             }
             <button type="button" onClick={toggleSignUpForm}>Sign up</button>
-            {props.showLoginForm
+            {showLoginForm
             ? createPortal(<LoginForm
                                 credentials={credentials}
                                 handleSettingCredentials={handleSettingCredentials}

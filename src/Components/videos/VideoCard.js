@@ -6,7 +6,7 @@ const VideoCard = props => {
     return (
         <div className='video-card'>
             <div className='video-card-content'>
-                <Link to={`/${props.video.id}`}>
+                <Link to={`/videos/${props.video.id}`}>
                     <h4>{props.video.videoTitle}</h4>
                 </Link>
             </div>
