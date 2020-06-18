@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Route} from 'react-router-dom';
 import VideoList from './videos/VideoList';
+import VideoPlayer from './videos/VideoPlayer';
 import CategoryList from './categories/CategoryList';
 import dataManager from '../modules/dataManager';
 import './css/MainPage.css'
@@ -19,7 +20,7 @@ const ApplicationViews = props => {
             <Route
                 exact
                 path='/'
-                render={props => {
+                render={() => {
                     return (
                     <article className='main-page'>  
                         <CategoryList 
@@ -29,10 +30,23 @@ const ApplicationViews = props => {
                         <VideoList 
                             categories={categories}
                             getCategories={getCategories}
+                            {...props}
                         />
                     </article>
                     )
                 }}
+            />
+            <Route 
+                exact
+                path="/:videoId(\d+)"
+                render={props => {
+                return (
+                <VideoPlayer 
+                    videoId={parseInt(props.match.params.videoId)}
+                    {...props}
+                />
+                );
+            }}         
             />
         </>
     )

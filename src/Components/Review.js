@@ -3,7 +3,7 @@ import Welcome from './auth/Welcome'
 import ApplicationViews from './ApplicationViews'
 import Header from './Header'
 
-const Review = () => {
+const Review = props => {
     const isAuthenticated = () => sessionStorage.getItem('user') !== null;
 
     const [hasUser, setHasUser] = useState(isAuthenticated());
@@ -32,6 +32,7 @@ const Review = () => {
                 showLoginForm={showLoginForm}
                 setShowSignUpForm={setShowSignUpForm}
                 setShowLoginForm={setShowLoginForm}
+                {...props}
             />
             : null}
 

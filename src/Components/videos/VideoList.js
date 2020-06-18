@@ -60,6 +60,7 @@ const VideoList = props => {
                         videos={videos}
                         key={mappedCategory.id}
                         category={mappedCategory}
+                        {...props}
                     />
                 )}
             </div>

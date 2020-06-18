@@ -34,6 +34,7 @@ const Welcome = props => {
                                 toggleSignUpForm={toggleSignUpForm} 
                                 setUser={props.setUser} 
                                 hasUser={props.hasUser}
+                                {...props}
                             />, modalDiv)
             : null
             }
@@ -45,6 +46,7 @@ const Welcome = props => {
                                 toggleLoginForm={toggleLoginForm} 
                                 setUser={props.setUser} 
                                 hasUser={props.hasUser}
+                                {...props}
                             />, modalDiv)
             : null
             }
