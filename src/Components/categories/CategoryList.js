@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import {createPortal} from 'react-dom'
 import CategoryForm from './CategoryForm'
+import '../css/CategoryList.css'
 
 const CategoryList = props => {
 
     const [showCategoryForm, setShowCategoryForm] = useState(false);
-
+    
     useEffect(() => {
         props.getCategories();
-    })
+    }, [])
 
     const toggleCategoryForm = () => {
         showCategoryForm ? setShowCategoryForm(false) : setShowCategoryForm(true)
@@ -17,8 +18,7 @@ const CategoryList = props => {
     const modalDiv = document.getElementById('modal');
 
     return (
-        <>
-            <h1>Categories</h1>
+        <section className='sidebar'>
             {showCategoryForm
                 ? createPortal(<CategoryForm
                                     categories={props.categories}
@@ -27,11 +27,11 @@ const CategoryList = props => {
                                 />, modalDiv)
                 : null
             }
-            <button type="button" onClick={toggleCategoryForm}>New category</button>
+            <p onClick={toggleCategoryForm}> &#x2b; New category</p>
             {props.categories.map(category =>
                 <p key={category.id}>{category.categoryTitle}</p>
             )}
-        </>
+        </section>
     )
 }
 

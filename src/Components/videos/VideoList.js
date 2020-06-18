@@ -25,8 +25,7 @@ const VideoList = props => {
     const modalDiv = document.getElementById('modal');
 
     return (
-        <>
-            <h1>Video List</h1>
+        <section className='videoList'>
             {showVideoForm
                 ? createPortal(<VideoForm
                                     categories={props.categories}
@@ -37,7 +36,7 @@ const VideoList = props => {
                                 />, modalDiv)
                 : null
             }
-            <button type="button" onClick={toggleVideoForm}>New video</button>
+            <p onClick={toggleVideoForm}>New video</p>
             {props.categories.map(mappedCategory =>
                 <VideoDeck
                     videos={videos}
@@ -45,7 +44,7 @@ const VideoList = props => {
                     category={mappedCategory}
                 />
             )}
-        </>
+        </section>
     )
 }
 

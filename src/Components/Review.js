@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Welcome from './auth/Welcome'
-import ApplicationViews from './ApplicationViews';
+import ApplicationViews from './ApplicationViews'
+import Header from './Header'
 
 const Review = () => {
     const isAuthenticated = () => sessionStorage.getItem('user') !== null;
@@ -11,6 +12,11 @@ const Review = () => {
         sessionStorage.setItem('user', JSON.stringify(user));
         setHasUser(isAuthenticated());
     }
+
+    const clearUser = () => {
+        sessionStorage.clear();
+        setHasUser(isAuthenticated());
+      }
 
     const [showSignUpForm, setShowSignUpForm] = useState(false);
 
@@ -27,7 +33,15 @@ const Review = () => {
                 setShowSignUpForm={setShowSignUpForm}
                 setShowLoginForm={setShowLoginForm}
             />
-            : <ApplicationViews />}
+            : null}
+
+            {hasUser
+            ? <Header clearUser={clearUser}/>
+            : null}
+
+            {hasUser
+            ? <ApplicationViews />
+            : null}
         </>
     );
 };
