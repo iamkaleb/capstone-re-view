@@ -4,35 +4,41 @@
     grid-template-columns: 640px;
     grid-template-areas:
         'react-player .'
-        'annotation-form .'
+        'noteForm .'
 }
 
 .react-player {
     grid-area: react-player
 }
 
-.annotation-form {
-    grid-area: annotation-form;
-}
-
-.annotation-form {
+#noteForm {
+    grid-area: noteForm;
     display: grid;
     grid-template-rows: 25px auto 22.5px;
-    grid-template-columns: 60px 200px 150px auto;
+    grid-template-columns: 60px 60px 200px 150px auto;
     grid-template-areas: 
-        'annotation-title annotation-title annotation-title .'
-        'annotation-content annotation-content annotation-content .'
-        'annotation-submit . . .'
+        'noteTitle noteTitle noteTitle noteTitle .'
+        'noteContent noteContent noteContent noteContent .'
+        'noteSubmit getTimestamp timestamp . .'
 }
 
-.annotation-title {
-    grid-area: annotation-title;
+#noteTitle {
+    grid-area: noteTitle;
 }
 
-.annotation-content {
-    grid-area: annotation-content;
+#noteContent {
+    grid-area: noteContent;
 }
 
-.annotation-submit {
-    grid-area: annotation-submit;
+#noteSubmit {
+    grid-area: noteSubmit;
+}
+
+#getTimestamp {
+    grid-area: getTimestamp;
+}
+
+#timestamp {
+    padding-left: 2px;
+    grid-area: timestamp;
 }
