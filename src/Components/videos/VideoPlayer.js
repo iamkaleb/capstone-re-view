@@ -95,7 +95,7 @@ const VideoPlayer = props => {
     };
 
     const getNotes = () => {
-        return dataManager.getAll('notes')
+        return dataManager.getByProperty('notes', 'videoId', props.videoId)
                 .then(notes => {
                     setNotes(notes)
                 })
