@@ -10,7 +10,6 @@ const VideoPlayer = props => {
     const [notes, setNotes] = useState([]);
     const [note, setNote] = useState({ noteTitle: '', noteContent: '', timestamp: '', videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user')) });
     const [isLoading, setIsLoading] = useState(false);
-    const [timestamp, setTimestamp] = useState('');
 
     useEffect(() => {
         dataManager.getByProperty('videos', 'id', props.videoId)
