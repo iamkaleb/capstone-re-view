@@ -38,7 +38,7 @@
     grid-area: getTimestamp;
 }
 
-#timestamp {
+.timestamp {
     padding-left: 2px;
     grid-area: timestamp;
 }

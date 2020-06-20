@@ -2,14 +2,18 @@ import React, { useState, useEffect, useRef} from 'react';
 import ReactPlayer from 'react-player'
 import dataManager from '../../modules/dataManager'
 import '../css/Player.css'
+import Duration from '../Duration'
+import NoteCard from './NoteCard'
 
 const VideoPlayer = props => {
     
     const [playing, setPlaying] = useState(false);
     const [video, setVideo] = useState({ videoTitle: '', url: '' });
     const [notes, setNotes] = useState([]);
-    const [note, setNote] = useState({ noteTitle: '', noteContent: '', timestamp: '', videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user')) });
+    const [formNote, setFormNote] = useState({ noteTitle: '', noteContent: '', timestamp: 0, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user')) });
+    const [displayNote, setDisplayNote] = useState({noteTitle: '', noteContent: '', timestamp: null, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user'))});
     const [isLoading, setIsLoading] = useState(false);
+
 
     useEffect(() => {
         dataManager.getByProperty('videos', 'id', props.videoId)
@@ -24,74 +28,50 @@ const VideoPlayer = props => {
     const player = useRef();
 
     const handleFieldChange = event => {
-        const stateToChange = {...note}
+        const stateToChange = {...formNote}
         stateToChange[event.target.id] = event.target.value;
-        setNote(stateToChange);
+        setFormNote(stateToChange);
     };
 
     const getTimestamp = () => {
-        let currentTime = player.current.getCurrentTime()
-        let minutes = Math.floor(currentTime / 60)
-        let seconds = ('0' + Math.floor(currentTime - minutes * 60)).slice(-2);
+        const newNote = {...formNote}
+        newNote.timestamp = Math.floor(player.current.getCurrentTime())
 
-        const newNote = {...note}
-        newNote.timestamp = `${minutes}:${seconds}`
-
-        setNote(newNote)
-    }
-
-    const applyTimestamp = timestamp => {
-        let minutes = parseInt(timestamp.split(":")[0])
-        let seconds = parseInt(timestamp.split(":")[1])
-
-        let targetTime = (minutes * 60) + seconds
-
-        return player.current.seekTo(targetTime)
-    }
-
-    // Sorting function modified from RobNO's time sorting function found here: https://www.codeproject.com/articles/625832/how-to-sort-date-and-or-time-in-javascript
-    function sortTimestamps(a, b) {
-        let minutesA = parseInt(a.timestamp.split(":")[0])
-        let minutesB = parseInt(b.timestamp.split(":")[0])
-
-        let secondsA = parseInt(a.timestamp.split(":")[1])
-        let secondsB = parseInt(b.timestamp.split(":")[1])       
-
-        let results = minutesA > minutesB ? 1 : minutesA < minutesB ? -1 : 0
-
-        if (results === 0) {
-            results = secondsA > secondsB ? 1 : secondsA < secondsB ? -1 : 0
-        }
-
-        return results
+        setFormNote(newNote)
     }
 
     const constructNote = event => {
         event.preventDefault();
 
-        if (note.noteTitle === '') {
+        if (formNote.noteTitle === '') {
             window.alert('Please title your note!')
-        } else if (note.timestamp === '') {
+        } else if (formNote.timestamp === 0) {
             window.alert('Press the "Time" button to timestamp your note!')
         } else {
-            dataManager.getByProperty('notes', 'timestamp', note.timestamp)
+            dataManager.getByProperty('notes', 'timestamp', formNote.timestamp)
             .then(noteArr => {
                 if (noteArr > 0) {
                     window.alert('You already have a timestamp there!')
                 } else {
                     setIsLoading(true);
-                    const newNote = {...note}
-                    newNote.timestamp =
-                    dataManager.post('notes', newNote)
+                    dataManager.post('notes', formNote)
                         .then(getNotes)
                         .then(() => {
-                            setNote({noteTitle: '', noteContent: '', timestamp: '', videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user'))});
+                            setFormNote({noteTitle: '', noteContent: '', timestamp: 0, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user'))});
                             setIsLoading(false)
                         })
                 }
             })
         }
     };
+
+    const handleProgress = state => {
+        console.log('onProgress', state)
+        // // We only want to update time slider if we are not currently seeking
+        // if (!this.state.seeking) {
+        //   this.setState(state)
+        // }
+      }
 
     const getNotes = () => {
         return dataManager.getByProperty('notes', 'videoId', props.videoId)
@@ -113,6 +93,8 @@ const VideoPlayer = props => {
                     playing={playing}
                     controls
                     ref={player}
+                    onProgress={handleProgress}
+                    progressInterval={1000}
                 />
             <form id='noteForm'>
                 <input 
@@ -120,13 +102,13 @@ const VideoPlayer = props => {
                     type='text' 
                     placeholder='Note title' 
                     onChange={handleFieldChange}
-                    value={note.noteTitle}
+                    value={formNote.noteTitle}
                 />
                 <textarea
                 placeholder="Add note"
                 id="noteContent"
                 onChange={handleFieldChange}
-                value={note.noteContent}
+                value={formNote.noteContent}
                 name="noteContent"
                 rows="4"
                 cols="50"
@@ -141,12 +123,13 @@ const VideoPlayer = props => {
                     type='button'
                     onClick={getTimestamp}
                 >Time</button>
-                <p id='timestamp'>{note.timestamp}</p>
+                <Duration seconds={formNote.timestamp} className='timestamp'/>
             </form>
+            <NoteCard displayNote={displayNote}/>
             <section id="noteList">
-                {notes.sort(sortTimestamps).map(note => {
+                {notes.sort((a, b) => a.timestamp - b.timestamp).map(note => {
                     return <div className="note" key={note.id}>
-                                <button type="button" onClick={() => applyTimestamp(note.timestamp)}>{note.timestamp}</button><p>{note.noteTitle}</p>
+                                <button type="button" onClick={() => player.current.seekTo(note.timestamp)}><Duration seconds={note.timestamp}/></button><p>{note.noteTitle}</p>
                             </div>
                         })}
             </section>
