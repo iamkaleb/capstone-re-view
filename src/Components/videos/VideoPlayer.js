@@ -6,15 +6,17 @@ import Duration from '../Duration'
 import NoteCard from './NoteCard'
 
 const VideoPlayer = props => {
-    
+    // States
     const [playing, setPlaying] = useState(false);
     const [video, setVideo] = useState({ videoTitle: '', url: '' });
     const [notes, setNotes] = useState([]);
     const [formNote, setFormNote] = useState({ noteTitle: '', noteContent: '', timestamp: 0, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user')) });
     const [displayNote, setDisplayNote] = useState({noteTitle: '', noteContent: '', timestamp: null, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user'))});
     const [isLoading, setIsLoading] = useState(false);
+    const [played, setPlayed] = useState(0);
+    const [duration, setDuration] = useState(0);
 
-
+    // Load video player w/ url after first render
     useEffect(() => {
         dataManager.getByProperty('videos', 'id', props.videoId)
         .then(videoArr => {
@@ -25,21 +27,39 @@ const VideoPlayer = props => {
         })
     }, [props.videoId]);
 
+    // Fetch notes from DB and set notes after first render
+    useEffect(() => {
+        getNotes();
+    }, []);
+
+    // When played state is updated, locate any matching note.timestamp from notes (if there is one) and set displayNote
+    useEffect(() => {
+        const time = notes.find(note => note.timestamp === played)
+        if (time !== undefined) {
+            setDisplayNote(time)
+        }
+    }, [played]);
+
+    // Ref for directly manipulating ReactPlayer
     const player = useRef();
 
+    // Set formNote based on noteForm inputs
     const handleFieldChange = event => {
         const stateToChange = {...formNote}
         stateToChange[event.target.id] = event.target.value;
         setFormNote(stateToChange);
     };
 
+    // Set formNote.timestamp using getCurrentTime() ref method
     const getTimestamp = () => {
+        setIsLoading(true)
         const newNote = {...formNote}
         newNote.timestamp = Math.floor(player.current.getCurrentTime())
-
         setFormNote(newNote)
-    }
+        setIsLoading(false)
+    };
 
+    // Post formNote to DB and get notes if noteForm validation passes
     const constructNote = event => {
         event.preventDefault();
 
@@ -65,25 +85,23 @@ const VideoPlayer = props => {
         }
     };
 
-    const handleProgress = state => {
-        console.log('onProgress', state)
-        // // We only want to update time slider if we are not currently seeking
-        // if (!this.state.seeking) {
-        //   this.setState(state)
-        // }
-      }
+    // Set played state based on progressInterval prop on ReactPlayer
+    const updatePlayed = progress => {
+        setPlayed(Math.floor(progress.playedSeconds))
+    };
 
+    // Set duration state when ReactPlayer loads url
+    const getDuration = duration => {
+        setDuration(duration);
+    };
+
+    // Fetch notes for this video from DB and set notes
     const getNotes = () => {
         return dataManager.getByProperty('notes', 'videoId', props.videoId)
                 .then(notes => {
                     setNotes(notes)
                 })
     };
-
-    useEffect(() => {
-        getNotes();
-    }, []);
-
 
     return (
         <article className='video-player'>
@@ -93,9 +111,11 @@ const VideoPlayer = props => {
                     playing={playing}
                     controls
                     ref={player}
-                    onProgress={handleProgress}
+                    onProgress={updatePlayed}
+                    onDuration={getDuration}
                     progressInterval={1000}
                 />
+
             <form id='noteForm'>
                 <input 
                     id='noteTitle' 
@@ -104,6 +124,7 @@ const VideoPlayer = props => {
                     onChange={handleFieldChange}
                     value={formNote.noteTitle}
                 />
+
                 <textarea
                 placeholder="Add note"
                 id="noteContent"
@@ -113,19 +134,25 @@ const VideoPlayer = props => {
                 rows="4"
                 cols="50"
                 />
+
                 <button
                     id='noteSubmit'
                     type='submit'
                     onClick={constructNote}
+                    disabled={isLoading}
                 >Submit</button>
+
                 <button
                     id='getTimestamp'
                     type='button'
                     onClick={getTimestamp}
                 >Time</button>
+
                 <Duration seconds={formNote.timestamp} className='timestamp'/>
             </form>
+
             <NoteCard displayNote={displayNote}/>
+
             <section id="noteList">
                 {notes.sort((a, b) => a.timestamp - b.timestamp).map(note => {
                     return <div className="note" key={note.id}>
