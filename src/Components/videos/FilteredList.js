@@ -5,15 +5,21 @@ import dataManager from '../../modules/dataManager'
 import VideoDeck from './VideoDeck'
 import CategoryForm from '../categories/CategoryForm'
 
-const VideoList = props => {
+const FilteredList = props => {
 
-    const [videos, setVideos] = useState([]);
     const [showVideoForm, setShowVideoForm] = useState(false);
     const [showCategoryForm, setShowCategoryForm] = useState(false);
 
-    const getVideos = () => {
-        return dataManager.getByProperty('videos', 'userId', parseInt(sessionStorage.getItem('user')))
-        .then(videosArr => setVideos(videosArr))
+    const getFilteredVideos = () => {
+        dataManager.getByProperty('categories', 'categoryTitle', props.categoryTitle)
+        .then(categoryArr => {
+            const stateToChange = categoryArr[0]
+            dataManager.getWithEmbed('categories', stateToChange.id, 'videos')
+            .then(embeddedCategory => {
+            props.setFilteredCategory(stateToChange)
+            props.setFilteredVideos(embeddedCategory.videos)
+            })
+        })
     }
 
     const toggleVideoForm = () => {
@@ -23,10 +29,6 @@ const VideoList = props => {
     const toggleCategoryForm = () => {
         showCategoryForm ? setShowCategoryForm(false) : setShowCategoryForm(true)
     }
-
-    useEffect(() => {
-        getVideos();
-    }, [])
 
     const modalDiv = document.getElementById('modal');
 
@@ -53,17 +55,15 @@ const VideoList = props => {
                 <p onClick={toggleCategoryForm}> &#x2b; New category</p>
             </div>
             <div className='video-decks'>
-                {props.categories.map(mappedCategory =>
-                    <VideoDeck
-                        videos={videos}
-                        key={mappedCategory.id}
-                        category={mappedCategory}
-                        {...props}
-                    />
-                )}
+                <VideoDeck
+                    videos={props.filteredVideos}
+                    key={props.filteredCategory.id}
+                    category={props.filteredCategory}
+                    {...props}
+                />
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default VideoList
+export default FilteredList

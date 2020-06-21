@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
-
+import CategoryCard from './CategoryCard'
+import { Link } from "react-router-dom";
 import '../css/Sidebar.css'
 
 const CategoryList = props => {
@@ -10,8 +11,21 @@ const CategoryList = props => {
 
     return (
         <section className='sidebar'>
+            <Link to={'/videos'}>
+                <p className='category' onClick={props.unfilterVideos}>All Videos</p>
+            </Link>
             {props.categories.map(category =>
-                <p key={category.id}>{category.categoryTitle}</p>
+                <CategoryCard 
+                    key={category.id} 
+                    category={category}
+                    categories={props.categories}
+                    getCategories={props.getCategories}
+                    filteredCategory={props.filteredCategory}
+                    setFilteredCategory={props.setFilteredCategory}
+                    filteredVideos={props.filteredVideos}
+                    setFilteredVideos={props.setFilteredVideos}
+                    {...props}
+                />
             )}
         </section>
     )

@@ -51,10 +51,12 @@ const VideoForm = props => {
                     const newVideo = {...video}
                     newVideo.categoryId = createdCategory.id
                     dataManager.post('videos', newVideo)
-                    .then(() => {
-                        props.getCategories();
-                        props.getVideos();
-                        props.toggleVideoForm();
+                    .then(postedVideo => {
+                        dataManager.get('categories', postedVideo.categoryId)
+                        .then(category => props.history.push(`/videos/${category.categoryTitle}`))
+                        // props.getCategories();
+                        // props.getVideos();
+                        // props.toggleVideoForm();
                     })
                 })
                 }
