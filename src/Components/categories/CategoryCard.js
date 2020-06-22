@@ -9,7 +9,7 @@ const CategoryCard = props => {
         }
 
     return (
-            <p onClick={filterbyCategory} className='category'>{props.category.categoryTitle}</p>
+            <h3 onClick={filterbyCategory} className='category'>{props.category.categoryTitle}</h3>
     )
 }
 

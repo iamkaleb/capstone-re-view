@@ -4,6 +4,7 @@ import dataManager from '../../modules/dataManager'
 const CategoryForm = props => {
 
     const [category, setCategory] = useState({"categoryTitle": "", "userId": parseInt(sessionStorage.getItem('user'))})
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSettingCategory = event => {
         const stateToChange = {...category};
@@ -22,6 +23,7 @@ const CategoryForm = props => {
             dataManager.post('categories', category)
             .then(category => {
                 props.history.push(`/videos/${category.categoryTitle}`)
+                props.toggleCategoryForm();
             })
         }
     }

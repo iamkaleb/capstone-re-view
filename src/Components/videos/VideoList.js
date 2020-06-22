@@ -42,7 +42,7 @@ const VideoList = props => {
     const modalDiv = document.getElementById('modal');
 
     return (
-        <section className='video-list'>
+        <section className='list-view'>
             {showVideoForm
                 ? createPortal(<VideoForm
                                     categories={props.categories}
@@ -62,8 +62,8 @@ const VideoList = props => {
                 : null
             }
             <div className='add-buttons'>
-                <p onClick={toggleVideoForm}> &#x2b; New video</p>
-                <p onClick={toggleCategoryForm}> &#x2b; New category</p>
+                <p className='add-button' onClick={toggleVideoForm}> &#x2b; New video</p>
+                <p className='add-button' onClick={toggleCategoryForm}> &#x2b; New category</p>
             </div>
             <div className='video-decks'>
                 {populatedCategories.map(mappedCategory =>

@@ -1,4 +1,11 @@
 .sidebar {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    background-color: black;
+    
+}
+
+.category {
+    color: white;
+    font-weight: bold;
 }
