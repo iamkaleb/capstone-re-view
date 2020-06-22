@@ -26,6 +26,7 @@ const VideoForm = props => {
     const handleAddVideo = event => {
         event.preventDefault();
 
+        
         if (video.videoTitle === "" || video.url === "") {
             window.alert('Please complete all fields!');
         } else if (video.categoryId === 0 && category.categoryTitle === "") {

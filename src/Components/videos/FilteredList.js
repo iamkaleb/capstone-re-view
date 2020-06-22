@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {createPortal} from 'react-dom'
 import VideoForm from './VideoForm'
-import dataManager from '../../modules/dataManager'
+// import dataManager from '../../modules/dataManager'
 import VideoDeck from './VideoDeck'
 import CategoryForm from '../categories/CategoryForm'
 
@@ -10,17 +10,17 @@ const FilteredList = props => {
     const [showVideoForm, setShowVideoForm] = useState(false);
     const [showCategoryForm, setShowCategoryForm] = useState(false);
 
-    const getFilteredVideos = () => {
-        dataManager.getByProperty('categories', 'categoryTitle', props.categoryTitle)
-        .then(categoryArr => {
-            const stateToChange = categoryArr[0]
-            dataManager.getWithEmbed('categories', stateToChange.id, 'videos')
-            .then(embeddedCategory => {
-            props.setFilteredCategory(stateToChange)
-            props.setFilteredVideos(embeddedCategory.videos)
-            })
-        })
-    }
+    // const getFilteredVideos = () => {
+    //     dataManager.getByProperty('categories', 'categoryTitle', props.categoryTitle)
+    //     .then(categoryArr => {
+    //         const stateToChange = categoryArr[0]
+    //         dataManager.getWithEmbed('categories', stateToChange.id, 'videos')
+    //         .then(embeddedCategory => {
+    //         props.setFilteredCategory(stateToChange)
+    //         props.setFilteredVideos(embeddedCategory.videos)
+    //         })
+    //     })
+    // }
 
     const toggleVideoForm = () => {
         showVideoForm ? setShowVideoForm(false) : setShowVideoForm(true)
