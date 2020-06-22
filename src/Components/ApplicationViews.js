@@ -18,6 +18,8 @@ const ApplicationViews = props => {
     const [filteredVideos, setFilteredVideos] = useState([]);
     const [filteredCategory, setFilteredCategory] = useState({categoryTitle: "", userId: parseInt(sessionStorage.getItem('user')), categoryId: 0});
     const [categories, setCategories] = useState([]);
+    const [showVideoForm, setShowVideoForm] = useState(false);
+    const [showCategoryForm, setShowCategoryForm] = useState(false);
 
     const getCategories = () => {
         return dataManager.getWithEmbed('users', parseInt(sessionStorage.getItem('user')), 'categories')
@@ -51,6 +53,10 @@ const ApplicationViews = props => {
                             <>
                                 <Header 
                                     clearUser={clearUser}
+                                    showVideoForm={showVideoForm}
+                                    setShowVideoForm={setShowVideoForm}
+                                    showCategoryForm={showCategoryForm}
+                                    setShowCategoryForm={setShowCategoryForm}
                                     {...props}
                                 />  
                                 <article className='main-page'>
@@ -61,11 +67,19 @@ const ApplicationViews = props => {
                                         setFilteredCategory={setFilteredCategory}
                                         filteredVideos={filteredVideos}
                                         setFilteredVideos={setFilteredVideos}
+                                        showVideoForm={showVideoForm}
+                                        setShowVideoForm={setShowVideoForm}
+                                        showCategoryForm={showCategoryForm}
+                                        setShowCategoryForm={setShowCategoryForm}
                                         {...props}
                                     />
                                     <VideoList 
                                         categories={categories}
                                         getCategories={getCategories}
+                                        showVideoForm={showVideoForm}
+                                        setShowVideoForm={setShowVideoForm}
+                                        showCategoryForm={showCategoryForm}
+                                        setShowCategoryForm={setShowCategoryForm}
                                         {...props}
                                     />
                                 </article>
@@ -85,6 +99,8 @@ const ApplicationViews = props => {
                             <>
                                 <Header 
                                     clearUser={clearUser}
+                                    showVideoForm={showVideoForm}
+                                    setShowVideoForm={setShowVideoForm}
                                     {...props}
                                 />  
                                 <article className='main-page'>
@@ -95,6 +111,10 @@ const ApplicationViews = props => {
                                         setFilteredCategory={setFilteredCategory}
                                         filteredVideos={filteredVideos}
                                         setFilteredVideos={setFilteredVideos}
+                                        showVideoForm={showVideoForm}
+                                        setShowVideoForm={setShowVideoForm}
+                                        showCategoryForm={showCategoryForm}
+                                        setShowCategoryForm={setShowCategoryForm}
                                         {...props}
                                     />
                                     <FilteredList 
@@ -105,6 +125,10 @@ const ApplicationViews = props => {
                                         setFilteredCategory={setFilteredCategory}
                                         filteredVideos={filteredVideos}
                                         setFilteredVideos={setFilteredVideos}
+                                        showVideoForm={showVideoForm}
+                                        setShowVideoForm={setShowVideoForm}
+                                        showCategoryForm={showCategoryForm}
+                                        setShowCategoryForm={setShowCategoryForm}
                                         {...props}
                                     />
                                 </article>
@@ -124,6 +148,10 @@ const ApplicationViews = props => {
                         <>
                             <Header 
                                 clearUser={clearUser}
+                                showVideoForm={showVideoForm}
+                                setShowVideoForm={setShowVideoForm}
+                                showCategoryForm={showCategoryForm}
+                                setShowCategoryForm={setShowCategoryForm}
                                 {...props}
                             />  
                             <VideoPlayer 

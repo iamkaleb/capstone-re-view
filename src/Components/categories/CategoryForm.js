@@ -22,6 +22,7 @@ const CategoryForm = props => {
             dataManager.post('categories', category)
             .then(category => {
                 props.history.push(`/videos/${category.categoryTitle}`)
+                props.toggleCategoryForm();
             })
         }
     }

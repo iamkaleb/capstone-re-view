@@ -40,7 +40,7 @@ const Welcome = props => {
                             />, modalDiv)
             : null
             }
-            <button type="button" onClick={toggleSignUpForm}>Sign up</button>
+            <button type="button" disabled={showLoginForm || showSignUpForm} onClick={toggleSignUpForm}>Sign up</button>
             {showLoginForm
             ? createPortal(<LoginForm
                                 credentials={credentials}
@@ -52,7 +52,7 @@ const Welcome = props => {
                             />, modalDiv)
             : null
             }
-            <button type="button" onClick={toggleLoginForm}>Log in</button> 
+            <button type="button" disabled={showLoginForm || showSignUpForm} onClick={toggleLoginForm}>Log in</button> 
         </>
     )
 }

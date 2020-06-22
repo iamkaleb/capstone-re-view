@@ -11,7 +11,16 @@ const VideoDeck = props => {
             <hr />
             <div className='video-list'>
             {props.videos.filter(filteredVideo => filteredVideo.categoryId === props.category.id).map(video => 
-                <VideoCard categoryTitle={props.category.categoryTitle} key={video.id} video={video} {...props} />
+                <VideoCard 
+                    categoryTitle={props.category.categoryTitle} 
+                    key={video.id} 
+                    video={video} 
+                    showVideoForm={props.showVideoForm}
+                    setShowVideoForm={props.setShowVideoForm}
+                    showCategoryForm={props.showCategoryForm}
+                    setShowCategoryForm={props.setShowCategoryForm}
+                    {...props} 
+                />
             )}
             </div>
         </section>
