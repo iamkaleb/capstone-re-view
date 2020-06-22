@@ -5,8 +5,8 @@ const VideoDeck = props => {
     
     return (
         <section className='video-deck'>
-            <div className='category-title'>
-                <h4>{props.category.categoryTitle}</h4><p>Edit</p><p>Delete</p>
+            <div className='category-title__container'>
+                <h3 className='category-title'>{props.category.categoryTitle}</h3><p className='category-title__button'>Edit</p><p className='category-title__button'>Delete</p>
             </div>
             <hr />
             <div className='video-list'>
@@ -15,10 +15,6 @@ const VideoDeck = props => {
                     categoryTitle={props.category.categoryTitle} 
                     key={video.id} 
                     video={video} 
-                    showVideoForm={props.showVideoForm}
-                    setShowVideoForm={props.setShowVideoForm}
-                    showCategoryForm={props.showCategoryForm}
-                    setShowCategoryForm={props.setShowCategoryForm}
                     {...props} 
                 />
             )}

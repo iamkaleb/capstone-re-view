@@ -48,17 +48,21 @@ const VideoForm = props => {
             .then(postedVideo => {
                 dataManager.getWithEmbed('categories', postedVideo.categoryId, 'videos')
                 .then(embeddedCategory => {
+                    if (props.match.params.hasOwnProperty('categoryTitle')) {
 
-                    // Adding video to category of current page
-                    if (props.match.params.categoryTitle === embeddedCategory.categoryTitle) {
-                        props.setFilteredVideos(embeddedCategory.videos)
-                        props.toggleVideoForm();
+                        // Adding video to category of current page or from 'All videos'
+                        if (props.match.params.categoryTitle === embeddedCategory.categoryTitle) {
+                            props.setFilteredVideos(embeddedCategory.videos)
+                            props.toggleVideoForm();
 
-                    // Adding video to category of different page
+                        // Adding video to category of different page
+                        } else {
+                            props.history.push(`/videos/${category.categoryTitle}`)
+                            props.toggleVideoForm();
+                        };
                     } else {
-                        props.history.push(`/videos/${category.categoryTitle}`)
-                        props.toggleVideoForm();
-                    };
+                        props.history.push(`/videos/${embeddedCategory.categoryTitle}`)
+                    }
                 });
             });
 
