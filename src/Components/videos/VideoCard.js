@@ -1,14 +1,11 @@
 import React from 'react'
-import { Link } from "react-router-dom";
 
 const VideoCard = props => {
     
     return (
         <div className='video-card'>
             <div className='video-card-content'>
-                <Link to={`/videos/${props.video.id}`}>
-                    <h4>{props.video.videoTitle}</h4>
-                </Link>
+                    <h4 onClick={() => props.history.push(`/videos/${props.categoryTitle}/${props.video.id}`)}>{props.video.videoTitle}</h4>
             </div>
         </div>
     )

@@ -26,20 +26,19 @@ const VideoForm = props => {
     const handleAddVideo = event => {
         event.preventDefault();
 
+
         if (video.videoTitle === "" || video.url === "") {
             window.alert('Please complete all fields!');
         } else if (video.categoryId === 0 && category.categoryTitle === "") {
             window.alert('Please either choose an existing category or add a new one')
         } else if (video.categoryId !== 0 && category.categoryTitle !== "") {
             window.alert('Please either choose an existing category or add a new one—not both!')
-        } else if (props.videos.some(stateVideo => stateVideo.videoTitle === video.videoTitle)){
-            window.alert('A video by that name already exists!')
         } else if (video.categoryId !== 0) {
             setIsLoading(true)
             dataManager.post('videos', video)
-            .then(() => {
-                props.getVideos();
-                props.toggleVideoForm();
+            .then(postedVideo => {
+                dataManager.get('categories', postedVideo.categoryId)
+                .then(category => props.history.push(`/videos/${category.categoryTitle}`))
             })
         } else if (category.categoryTitle !== "") {
             if (props.categories.some(sommedCategory => sommedCategory.categoryTitle === category.categoryTitle)) {
@@ -51,10 +50,9 @@ const VideoForm = props => {
                     const newVideo = {...video}
                     newVideo.categoryId = createdCategory.id
                     dataManager.post('videos', newVideo)
-                    .then(() => {
-                        props.getCategories();
-                        props.getVideos();
-                        props.toggleVideoForm();
+                    .then(postedVideo => {
+                        dataManager.get('categories', postedVideo.categoryId)
+                        .then(category => props.history.push(`/videos/${category.categoryTitle}`))
                     })
                 })
                 }

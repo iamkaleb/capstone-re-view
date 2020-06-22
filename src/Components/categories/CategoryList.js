@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-
+import CategoryCard from './CategoryCard'
 import '../css/Sidebar.css'
 
 const CategoryList = props => {
@@ -10,8 +10,13 @@ const CategoryList = props => {
 
     return (
         <section className='sidebar'>
+                <p className='category' onClick={() => props.history.push('/videos')}>All Videos</p>
             {props.categories.map(category =>
-                <p key={category.id}>{category.categoryTitle}</p>
+                <CategoryCard 
+                    key={category.id} 
+                    category={category}
+                    {...props}
+                />
             )}
         </section>
     )

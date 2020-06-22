@@ -3,6 +3,7 @@ import {Route, Redirect} from 'react-router-dom';
 import Header from './Header'
 import Welcome from './auth/Welcome'
 import VideoList from './videos/VideoList';
+import FilteredList from './videos/FilteredList'
 import VideoPlayer from './videos/VideoPlayer';
 import CategoryList from './categories/CategoryList';
 import dataManager from '../modules/dataManager';
@@ -13,12 +14,15 @@ const ApplicationViews = props => {
     const hasUser = props.hasUser;
     const setUser = props.setUser;
     const clearUser = props.clearUser;
-    
+
+    const [filteredVideos, setFilteredVideos] = useState([]);
+    const [filteredCategory, setFilteredCategory] = useState({categoryTitle: "", userId: parseInt(sessionStorage.getItem('user')), categoryId: 0});
     const [categories, setCategories] = useState([]);
 
     const getCategories = () => {
-        return dataManager.getByProperty('categories', 'userId', parseInt(sessionStorage.getItem('user')))
-        .then(categoriesArr => setCategories(categoriesArr.sort((a, b) => (a.categoryTitle > b.categoryTitle) ? 1 : -1)))
+        return dataManager.getWithEmbed('users', parseInt(sessionStorage.getItem('user')), 'categories')
+        .then(user => 
+            setCategories(user.categories.sort((categoryA, categoryB) => (categoryA.categoryTitle > categoryB.categoryTitle) ? 1 : -1)))
     }
 
     return (
@@ -45,11 +49,19 @@ const ApplicationViews = props => {
                     if (hasUser) {
                         return (
                             <>
-                                <Header clearUser={clearUser}/>  
+                                <Header 
+                                    clearUser={clearUser}
+                                    {...props}
+                                />  
                                 <article className='main-page'>
                                     <CategoryList 
                                         categories={categories}
                                         getCategories={getCategories}
+                                        filteredCategory={filteredCategory}
+                                        setFilteredCategory={setFilteredCategory}
+                                        filteredVideos={filteredVideos}
+                                        setFilteredVideos={setFilteredVideos}
+                                        {...props}
                                     />
                                     <VideoList 
                                         categories={categories}
@@ -66,12 +78,54 @@ const ApplicationViews = props => {
             />
             <Route 
                 exact
-                path="/videos/:videoId(\d+)"
+                path="/videos/:categoryTitle"
+                render={props => {
+                if (hasUser) {
+                    return (
+                            <>
+                                <Header 
+                                    clearUser={clearUser}
+                                    {...props}
+                                />  
+                                <article className='main-page'>
+                                    <CategoryList 
+                                        categories={categories}
+                                        getCategories={getCategories}
+                                        filteredCategory={filteredCategory}
+                                        setFilteredCategory={setFilteredCategory}
+                                        filteredVideos={filteredVideos}
+                                        setFilteredVideos={setFilteredVideos}
+                                        {...props}
+                                    />
+                                    <FilteredList 
+                                        categoryTitle={props.match.params.categoryTitle}
+                                        categories={categories}
+                                        getCategories={getCategories}
+                                        filteredCategory={filteredCategory}
+                                        setFilteredCategory={setFilteredCategory}
+                                        filteredVideos={filteredVideos}
+                                        setFilteredVideos={setFilteredVideos}
+                                        {...props}
+                                    />
+                                </article>
+                            </>
+                        )
+                } else {
+                    return <Redirect to='/' />
+                }
+                }}         
+            />
+            <Route 
+                exact
+                path="/videos/:categoryTitle/:videoId(\d+)"
                 render={props => {
                 if (hasUser) {
                     return (
                         <>
-                            <Header clearUser={clearUser}/>
+                            <Header 
+                                clearUser={clearUser}
+                                {...props}
+                            />  
                             <VideoPlayer 
                                 videoId={parseInt(props.match.params.videoId)}
                                 {...props}
@@ -84,6 +138,7 @@ const ApplicationViews = props => {
                 }}         
             />
         </>
+
     )
 }
 

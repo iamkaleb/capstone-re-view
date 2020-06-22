@@ -20,9 +20,8 @@ const CategoryForm = props => {
             window.alert('That category already exists!')
         } else {
             dataManager.post('categories', category)
-            .then(() => {
-                props.toggleCategoryForm();
-                props.getCategories();
+            .then(category => {
+                props.history.push(`/videos/${category.categoryTitle}`)
             })
         }
     }
