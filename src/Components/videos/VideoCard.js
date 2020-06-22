@@ -5,7 +5,7 @@ const VideoCard = props => {
     return (
         <div className='video-card'>
             <div className='video-card-content'>
-                    <h4 onClick={() => props.history.push(`/videos/${props.category.categoryTitle}/${props.video.id}`)}>{props.video.videoTitle}</h4>
+                    <h4 onClick={() => props.history.push(`/videos/${props.categoryTitle}/${props.video.id}`)}>{props.video.videoTitle}</h4>
             </div>
         </div>
     )

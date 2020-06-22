@@ -22,7 +22,7 @@ const VideoList = props => {
             Promise.all(categoryIdsArr.map(categoryId => fetch(`http://localhost:8088/categories/${categoryId}`)))
             .then(responses => Promise.all(responses.map(response => response.json())))
             .then(categoryArr => {
-                setPopulatedCategories(categoryArr);
+                setPopulatedCategories(categoryArr.sort((categoryA, categoryB) => (categoryA.categoryTitle > categoryB.categoryTitle) ? 1 : -1));
             });
         });
     };
@@ -48,6 +48,7 @@ const VideoList = props => {
                                     categories={props.categories}
                                     getCategories={props.getCategories}
                                     toggleVideoForm={toggleVideoForm}
+                                    {...props}
                                 />, modalDiv)
                 : null
             }
@@ -56,6 +57,7 @@ const VideoList = props => {
                                     categories={props.categories}
                                     getCategories={props.getCategories}
                                     toggleCategoryForm={toggleCategoryForm}
+                                    {...props}
                                 />, modalDiv)
                 : null
             }

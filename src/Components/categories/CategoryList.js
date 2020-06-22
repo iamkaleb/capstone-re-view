@@ -15,12 +15,6 @@ const CategoryList = props => {
                 <CategoryCard 
                     key={category.id} 
                     category={category}
-                    categories={props.categories}
-                    getCategories={props.getCategories}
-                    filteredCategory={props.filteredCategory}
-                    setFilteredCategory={props.setFilteredCategory}
-                    filteredVideos={props.filteredVideos}
-                    setFilteredVideos={props.setFilteredVideos}
                     {...props}
                 />
             )}
