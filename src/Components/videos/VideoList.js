@@ -8,13 +8,24 @@ import CategoryForm from '../categories/CategoryForm'
 const VideoList = props => {
 
     const [videos, setVideos] = useState([]);
+    const [populatedCategories, setPopulatedCategories] = useState([])
     const [showVideoForm, setShowVideoForm] = useState(false);
     const [showCategoryForm, setShowCategoryForm] = useState(false);
 
-    const getVideos = () => {
-        return dataManager.getByProperty('videos', 'userId', parseInt(sessionStorage.getItem('user')))
-        .then(videosArr => setVideos(videosArr))
-    }
+    const getVideosAndCategories = () => {
+        return dataManager.getWithEmbed('users', parseInt(sessionStorage.getItem('user')), 'videos')
+        .then(user => {
+            setVideos(user.videos)
+            const categoryIdsSet = new Set();
+            user.videos.map(video => categoryIdsSet.add(video.categoryId))
+            const categoryIdsArr = Array.from(categoryIdsSet)
+            Promise.all(categoryIdsArr.map(categoryId => fetch(`http://localhost:8088/categories/${categoryId}`)))
+            .then(responses => Promise.all(responses.map(response => response.json())))
+            .then(categoryArr => {
+                setPopulatedCategories(categoryArr);
+            });
+        });
+    };
 
     const toggleVideoForm = () => {
         showVideoForm ? setShowVideoForm(false) : setShowVideoForm(true)
@@ -25,7 +36,7 @@ const VideoList = props => {
     }
 
     useEffect(() => {
-        getVideos();
+        getVideosAndCategories();
     }, [])
 
     const modalDiv = document.getElementById('modal');
@@ -53,7 +64,7 @@ const VideoList = props => {
                 <p onClick={toggleCategoryForm}> &#x2b; New category</p>
             </div>
             <div className='video-decks'>
-                {props.categories.map(mappedCategory =>
+                {populatedCategories.map(mappedCategory =>
                     <VideoDeck
                         videos={videos}
                         key={mappedCategory.id}

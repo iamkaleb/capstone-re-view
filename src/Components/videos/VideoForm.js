@@ -37,9 +37,9 @@ const VideoForm = props => {
         } else if (video.categoryId !== 0) {
             setIsLoading(true)
             dataManager.post('videos', video)
-            .then(() => {
-                props.getVideos();
-                props.toggleVideoForm();
+            .then(postedVideo => {
+                dataManager.get('categories', postedVideo.categoryId)
+                .then(category => props.history.push(`/videos/${category.categoryTitle}`))
             })
         } else if (category.categoryTitle !== "") {
             if (props.categories.some(sommedCategory => sommedCategory.categoryTitle === category.categoryTitle)) {

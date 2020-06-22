@@ -6,7 +6,7 @@ const CategoryCard = props => {
     const filterbyCategory = () => {
             dataManager.getWithEmbed('categories', props.category.id, 'videos')
             .then(embeddedCategory => {
-                props.history.push(`/videos/${props.categoryTitle}`)
+                props.history.push(`/videos/${props.category.categoryTitle}`)
                 props.setFilteredCategory(props.category)
                 props.setFilteredVideos(embeddedCategory.videos)
             })

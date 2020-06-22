@@ -20,8 +20,9 @@ const ApplicationViews = props => {
     const [categories, setCategories] = useState([]);
 
     const getCategories = () => {
-        return dataManager.getByProperty('categories', 'userId', parseInt(sessionStorage.getItem('user')))
-        .then(categoriesArr => setCategories(categoriesArr.sort((a, b) => (a.categoryTitle > b.categoryTitle) ? 1 : -1)))
+        return dataManager.getWithEmbed('users', parseInt(sessionStorage.getItem('user')), 'categories')
+        .then(user => 
+            setCategories(user.categories.sort((categoryA, categoryB) => (categoryA.categoryTitle > categoryB.categoryTitle) ? 1 : -1)))
     }
 
     return (
@@ -48,7 +49,10 @@ const ApplicationViews = props => {
                     if (hasUser) {
                         return (
                             <>
-                                <Header clearUser={clearUser}/>  
+                                <Header 
+                                    clearUser={clearUser}
+                                    {...props}
+                                />  
                                 <article className='main-page'>
                                     <CategoryList 
                                         categories={categories}
@@ -79,7 +83,10 @@ const ApplicationViews = props => {
                 if (hasUser) {
                     return (
                             <>
-                                <Header clearUser={clearUser}/>  
+                                <Header 
+                                    clearUser={clearUser}
+                                    {...props}
+                                />  
                                 <article className='main-page'>
                                     <CategoryList 
                                         categories={categories}
@@ -115,7 +122,10 @@ const ApplicationViews = props => {
                 if (hasUser) {
                     return (
                         <>
-                            <Header clearUser={clearUser}/>
+                            <Header 
+                                clearUser={clearUser}
+                                {...props}
+                            />  
                             <VideoPlayer 
                                 videoId={parseInt(props.match.params.videoId)}
                                 {...props}
