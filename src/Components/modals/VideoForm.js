@@ -52,14 +52,15 @@ const VideoForm = props => {
 
                         // Adding video to category of current page or from 'All videos'
                         if (props.match.params.categoryTitle === embeddedCategory.categoryTitle) {
-                            props.setFilteredVideos(embeddedCategory.videos)
                             props.toggleVideoForm();
+                            props.setFilteredVideos(embeddedCategory.videos)
 
                         // Adding video to category of different page
                         } else {
-                            props.history.push(`/videos/${category.categoryTitle}`)
                             props.toggleVideoForm();
+                            props.history.push(`/videos/${category.categoryTitle}`)
                         };
+                        
                     } else {
                         props.history.push(`/videos/${embeddedCategory.categoryTitle}`)
                     }

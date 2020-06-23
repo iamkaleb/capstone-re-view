@@ -3,7 +3,8 @@ import {createPortal} from 'react-dom'
 import VideoForm from '../modals/VideoForm'
 import dataManager from '../../modules/dataManager'
 import VideoDeck from './VideoDeck'
-import CategoryForm from '../modals/CategoryForm'
+import AddCategoryForm from '../modals/AddCategoryForm'
+import EditCategoryForm from '../modals/EditCategoryForm'
 import DeleteCategoryConfirm from '../modals/DeleteCategoryConfirm'
 
 const VideoList = props => {
@@ -11,7 +12,8 @@ const VideoList = props => {
     const [videos, setVideos] = useState([]);
     const [populatedCategories, setPopulatedCategories] = useState([])
     const [showVideoForm, setShowVideoForm] = useState(false);
-    const [showCategoryForm, setShowCategoryForm] = useState(false);
+    const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
+    const [showEditCategoryForm, setShowEditCategoryForm] = useState(false);
     const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
     const [modalId, setModalId] = useState(0);
 
@@ -34,8 +36,13 @@ const VideoList = props => {
         showVideoForm ? setShowVideoForm(false) : setShowVideoForm(true)
     }
 
-    const toggleCategoryForm = () => {
-        showCategoryForm ? setShowCategoryForm(false) : setShowCategoryForm(true)
+    const toggleAddCategoryForm = () => {
+        showAddCategoryForm ? setShowAddCategoryForm(false) : setShowAddCategoryForm(true)
+    }
+
+    const toggleEditCategoryForm = id => {
+        setModalId(id)
+        showEditCategoryForm ? setShowEditCategoryForm(false) : setShowEditCategoryForm(true)
     }
 
     const toggleDeleteCategoryConfirm = id => {
@@ -60,12 +67,11 @@ const VideoList = props => {
                                 />, modalDiv)
                 : null
             }
-            {showCategoryForm
-                ? createPortal(<CategoryForm
+            {showAddCategoryForm
+                ? createPortal(<AddCategoryForm
                                     categories={props.categories}
                                     getCategories={props.getCategories}
-                                    toggleCategoryForm={toggleCategoryForm}
-                                    showDeleteCategoryConfirm={showDeleteCategoryConfirm}
+                                    toggleAddCategoryForm={toggleAddCategoryForm}
                                     {...props}
                                 />, modalDiv)
                 : null
@@ -80,9 +86,20 @@ const VideoList = props => {
                                 />, modalDiv)
                 : null
             }
+            {showEditCategoryForm
+                ? createPortal(<EditCategoryForm
+                                    categoryId={modalId}
+                                    categories={props.categories}
+                                    getCategories={props.getCategories}
+                                    getVideosAndCategories={getVideosAndCategories}
+                                    toggleEditCategoryForm={toggleEditCategoryForm}
+                                    {...props}
+                                />, modalDiv)
+                : null
+            }
             <div className='add-buttons'>
                 <p className='add-button' onClick={toggleVideoForm}> &#x2b; New video</p>
-                <p className='add-button' onClick={toggleCategoryForm}> &#x2b; New category</p>
+                <p className='add-button' onClick={toggleAddCategoryForm}> &#x2b; New category</p>
             </div>
             <div className='video-decks'>
                 {populatedCategories.map(mappedCategory =>
@@ -90,6 +107,7 @@ const VideoList = props => {
                         videos={videos}
                         key={mappedCategory.id}
                         category={mappedCategory}
+                        toggleEditCategoryForm={toggleEditCategoryForm}
                         toggleDeleteCategoryConfirm={toggleDeleteCategoryConfirm}
                         {...props}
                     />
