@@ -21,6 +21,12 @@ export default {
             body: JSON.stringify(newObject)
         }).then(response => response.json())
     },
+
+    delete (collection, id) {
+        return fetch(`${remoteURL}/${collection}/${id}`, {
+            method: "DELETE"
+        })
+    },
     
     update (collection, editedObject) {
         return fetch(`${remoteURL}/${collection}/${editedObject.id}`, {

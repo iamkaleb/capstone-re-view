@@ -57,9 +57,7 @@ const ApplicationViews = props => {
                                     <CategoryList 
                                         categories={categories}
                                         getCategories={getCategories}
-                                        filteredCategory={filteredCategory}
                                         setFilteredCategory={setFilteredCategory}
-                                        filteredVideos={filteredVideos}
                                         setFilteredVideos={setFilteredVideos}
                                         {...props}
                                     />
@@ -91,9 +89,7 @@ const ApplicationViews = props => {
                                     <CategoryList 
                                         categories={categories}
                                         getCategories={getCategories}
-                                        filteredCategory={filteredCategory}
                                         setFilteredCategory={setFilteredCategory}
-                                        filteredVideos={filteredVideos}
                                         setFilteredVideos={setFilteredVideos}
                                         {...props}
                                     />

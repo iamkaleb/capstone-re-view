@@ -94,7 +94,7 @@ const VideoForm = props => {
 
 return (
     <>
-        <form>
+        <form className='modal'>
             <label>Add Video</label>
 
             <label htmlFor='videoTitle'>Title</label>
