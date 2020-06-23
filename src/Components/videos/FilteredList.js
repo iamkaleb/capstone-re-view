@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {createPortal} from 'react-dom'
 import VideoForm from '../modals/VideoForm'
+import EditVideoForm from '../modals/EditVideoForm'
+import DeleteVideoConfirm from '../modals/DeleteVideoConfirm'
 import dataManager from '../../modules/dataManager'
 import VideoDeck from './VideoDeck'
 import AddCategoryForm from '../modals/AddCategoryForm'
@@ -10,6 +12,8 @@ import DeleteCategoryConfirm from '../modals/DeleteCategoryConfirm'
 const FilteredList = props => {
 
     const [showVideoForm, setShowVideoForm] = useState(false);
+    const [showEditVideoForm, setShowEditVideoForm] = useState(false);
+    const [showDeleteVideoConfirm, setShowDeleteVideoConfirm] = useState(false);
     const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
     const [showEditCategoryForm, setShowEditCategoryForm] = useState(false);
     const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
@@ -35,6 +39,16 @@ const FilteredList = props => {
         showVideoForm ? setShowVideoForm(false) : setShowVideoForm(true)
     }
 
+    const toggleEditVideoForm = id => {
+        setModalId(id)
+        showEditVideoForm ? setShowEditVideoForm(false) : setShowEditVideoForm(true)
+    }
+
+    const toggleDeleteVideoConfirm = id => {
+        setModalId(id)
+        showDeleteVideoConfirm ? setShowDeleteVideoConfirm(false) : setShowDeleteVideoConfirm(true)
+    }
+
     const toggleAddCategoryForm = () => {
         showAddCategoryForm ? setShowAddCategoryForm(false) : setShowAddCategoryForm(true)
     }
@@ -58,6 +72,25 @@ const FilteredList = props => {
                                     categories={props.categories}
                                     getCategories={props.getCategories}
                                     toggleVideoForm={toggleVideoForm}
+                                    {...props}
+                                />, modalDiv)
+                : null
+            }
+            {showEditVideoForm
+                ? createPortal(<EditVideoForm
+                                    videoId={modalId}
+                                    categories={props.categories}
+                                    getCategories={props.getCategories}
+                                    toggleEditVideoForm={toggleEditVideoForm}
+                                    {...props}
+                                />, modalDiv)
+                : null
+            }
+            {showDeleteVideoConfirm
+                ? createPortal(<DeleteVideoConfirm
+                                    videoId={modalId}
+                                    getFilteredVideos={getFilteredVideos}
+                                    toggleDeleteVideoConfirm={toggleDeleteVideoConfirm}
                                     {...props}
                                 />, modalDiv)
                 : null
@@ -100,6 +133,8 @@ const FilteredList = props => {
                     videos={props.filteredVideos}
                     key={props.filteredCategory.id}
                     category={props.filteredCategory}
+                    toggleEditVideoForm={toggleEditVideoForm}
+                    toggleDeleteVideoConfirm={toggleDeleteVideoConfirm}
                     toggleEditCategoryForm={toggleEditCategoryForm}
                     toggleDeleteCategoryConfirm={toggleDeleteCategoryConfirm}
                     {...props}

@@ -15,6 +15,8 @@ const VideoDeck = props => {
                     categoryTitle={props.category.categoryTitle} 
                     key={video.id} 
                     video={video} 
+                    toggleEditVideoForm={props.toggleEditVideoForm}
+                    toggleDeleteVideoConfirm={props.toggleDeleteVideoConfirm}
                     {...props} 
                 />
             )}
