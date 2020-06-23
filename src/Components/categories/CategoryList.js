@@ -10,7 +10,8 @@ const CategoryList = props => {
 
     return (
         <section className='sidebar'>
-                <p className='category' onClick={() => props.history.push('/videos')}>All Videos</p>
+                <h3 className='category' onClick={() => props.history.push('/videos')}>All Videos</h3>
+                <hr />
             {props.categories.map(category =>
                 <CategoryCard 
                     key={category.id} 

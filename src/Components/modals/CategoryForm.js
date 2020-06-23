@@ -30,7 +30,7 @@ const CategoryForm = props => {
 
 return (
     <>
-        <form>
+        <form className='modal'>
             <label htmlFor='categoryTitle'>Add category</label>
             <input onChange={handleSettingCategory} type='text' id='categoryTitle' />
 

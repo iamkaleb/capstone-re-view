@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {createPortal} from 'react-dom'
-import VideoForm from './VideoForm'
+import VideoForm from '../modals/VideoForm'
 import dataManager from '../../modules/dataManager'
 import VideoDeck from './VideoDeck'
-import CategoryForm from '../categories/CategoryForm'
+import CategoryForm from '../modals/CategoryForm'
+import DeleteCategoryConfirm from '../modals/DeleteCategoryConfirm'
 
 const VideoList = props => {
 
@@ -11,6 +12,8 @@ const VideoList = props => {
     const [populatedCategories, setPopulatedCategories] = useState([])
     const [showVideoForm, setShowVideoForm] = useState(false);
     const [showCategoryForm, setShowCategoryForm] = useState(false);
+    const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
+    const [modalId, setModalId] = useState(0);
 
     const getVideosAndCategories = () => {
         return dataManager.getWithEmbed('users', parseInt(sessionStorage.getItem('user')), 'videos')
@@ -35,6 +38,11 @@ const VideoList = props => {
         showCategoryForm ? setShowCategoryForm(false) : setShowCategoryForm(true)
     }
 
+    const toggleDeleteCategoryConfirm = id => {
+        setModalId(id)
+        showDeleteCategoryConfirm ? setShowDeleteCategoryConfirm(false) : setShowDeleteCategoryConfirm(true)
+    }
+
     useEffect(() => {
         getVideosAndCategories();
     }, [])
@@ -57,6 +65,17 @@ const VideoList = props => {
                                     categories={props.categories}
                                     getCategories={props.getCategories}
                                     toggleCategoryForm={toggleCategoryForm}
+                                    showDeleteCategoryConfirm={showDeleteCategoryConfirm}
+                                    {...props}
+                                />, modalDiv)
+                : null
+            }
+            {showDeleteCategoryConfirm
+                ? createPortal(<DeleteCategoryConfirm
+                                    categoryId={modalId}
+                                    toggleDeleteCategoryConfirm={toggleDeleteCategoryConfirm}
+                                    getVideosAndCategories={getVideosAndCategories}
+                                    getCategories={props.getCategories}
                                     {...props}
                                 />, modalDiv)
                 : null
@@ -71,6 +90,7 @@ const VideoList = props => {
                         videos={videos}
                         key={mappedCategory.id}
                         category={mappedCategory}
+                        toggleDeleteCategoryConfirm={toggleDeleteCategoryConfirm}
                         {...props}
                     />
                 )}
