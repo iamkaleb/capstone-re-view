@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import dataManager from '../../modules/dataManager'
 
-const CategoryForm = props => {
+const AddCategoryForm = props => {
 
     const [category, setCategory] = useState({"categoryTitle": "", "userId": parseInt(sessionStorage.getItem('user'))})
     const [isLoading, setIsLoading] = useState(false);
@@ -22,23 +22,21 @@ const CategoryForm = props => {
         } else {
             dataManager.post('categories', category)
             .then(category => {
+                props.toggleAddCategoryForm();
                 props.history.push(`/videos/${category.categoryTitle}`)
-                props.toggleCategoryForm();
             })
         }
     }
 
 return (
-    <>
         <form className='modal'>
             <label htmlFor='categoryTitle'>Add category</label>
             <input onChange={handleSettingCategory} type='text' id='categoryTitle' />
 
             <button type='submit' id='addCategory' onClick={handleAddCategory}>Add</button>
-            <button id='cancel' onClick={props.toggleCategoryForm}>Cancel</button>
+            <button id='cancel' onClick={props.toggleAddCategoryForm}>Cancel</button>
         </form>
-    </>
 )
 }
 
-export default CategoryForm
+export default AddCategoryForm
