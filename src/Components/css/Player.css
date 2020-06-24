@@ -42,3 +42,42 @@
     padding-left: 2px;
     grid-area: timestamp;
 }
+
+.note-card {
+    display: grid;
+    padding-left: .75em;
+    padding-right: 1em;
+    grid-template-rows: 30px 30px;
+    grid-template-columns: 60px 60px 60px;
+    grid-template-areas: 
+    'note-card__timestamp note-card__edit note-card__delete .'
+    'note-card__title note-card__title note-card__title note-card__title'
+    'note-card__content note-card__content note-card__content note-card__content'
+}
+
+.note-card__timestamp {
+    padding-top: 1em;
+    font-weight: bold;
+    grid-area: note-card__timestamp;
+}
+
+.note-card__title {
+    grid-area: note-card__title;
+}
+
+.note-card__content {
+    grid-area: note-card__content;
+}
+
+.note-card__edit {
+    grid-area: note-card__edit;
+}
+.note-card__delete {
+    grid-area: note-card__delete;
+}
+
+#noteList {
+    border: solid black 1px;
+    padding-left: .75em;
+    padding-top: .75em;
+}

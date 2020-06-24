@@ -7,10 +7,10 @@ import NoteCard from './NoteCard'
 
 const VideoPlayer = props => {
     // States
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(true);
     const [video, setVideo] = useState({ videoTitle: '', url: '' });
     const [notes, setNotes] = useState([]);
-    const [formNote, setFormNote] = useState({ noteTitle: '', noteContent: '', timestamp: 0, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user')) });
+    const [formNote, setFormNote] = useState({ noteTitle: '', noteContent: '', timestamp: 0, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user'))});
     const [displayNote, setDisplayNote] = useState({noteTitle: '', noteContent: '', timestamp: null, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user'))});
     const [isLoading, setIsLoading] = useState(false);
     const [played, setPlayed] = useState(0);
@@ -18,14 +18,14 @@ const VideoPlayer = props => {
 
     // Load video player w/ url after first render
     useEffect(() => {
-        dataManager.getByProperty('videos', 'id', props.videoId)
+        dataManager.getByProperty('videos', 'id', props.match.params.videoId)
         .then(videoArr => {
             setVideo({
                 videoTitle: videoArr[0].videoTitle,
                 url: videoArr[0].url
             })
         })
-    }, [props.videoId]);
+    }, [props.match.params.videoId]);
 
     // Fetch notes from DB and set notes after first render
     useEffect(() => {
@@ -58,6 +58,8 @@ const VideoPlayer = props => {
         setFormNote(newNote)
         setIsLoading(false)
     };
+
+
 
     // Post formNote to DB and get notes if noteForm validation passes
     const constructNote = event => {
@@ -101,6 +103,24 @@ const VideoPlayer = props => {
                 .then(notes => {
                     setNotes(notes)
                 })
+    };
+
+    const deleteNote = id => {
+        dataManager.delete('notes', id)
+        .then(() => {
+
+            setDisplayNote(
+                {noteTitle: '', 
+                noteContent: '', 
+                timestamp: null, 
+                videoId: props.videoId, 
+                userId: parseInt(sessionStorage.getItem('user'))});
+
+            dataManager.getByProperty('notes', 'videoId', props.match.params.videoId)
+            .then(notes => {
+                    setNotes(notes)
+                })
+        })
     };
 
     return (
@@ -151,7 +171,7 @@ const VideoPlayer = props => {
                 <Duration seconds={formNote.timestamp} className='timestamp'/>
             </form>
 
-            <NoteCard displayNote={displayNote}/>
+            <NoteCard displayNote={displayNote} deleteNote={deleteNote}/>
 
             <section id="noteList">
                 {notes.sort((a, b) => a.timestamp - b.timestamp).map(note => {

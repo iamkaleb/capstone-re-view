@@ -4,10 +4,10 @@ import Duration from '../Duration'
 const NoteCard = props => {
 
     return (
-        <section>
-            <Duration seconds={props.displayNote.timestamp} />
-            <h1>{props.displayNote.noteTitle}</h1>
-            <p>{props.displayNote.noteContent}</p>
+        <section className='note-card'>
+            <Duration className='note-card__timestamp' seconds={props.displayNote.timestamp}/><p className='note-card__edit'>Edit</p><p onClick={() => props.deleteNote(props.displayNote.id)} className='note-card__delete'>Delete</p>
+            <h1 className='note-card__title'>{props.displayNote.noteTitle}</h1>
+            <p className='note-card__content'>{props.displayNote.noteContent}</p>
         </section>
 
     )
