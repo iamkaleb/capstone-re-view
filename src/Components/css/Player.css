@@ -14,12 +14,19 @@
 #noteForm {
     grid-area: noteForm;
     display: grid;
-    grid-template-rows: 25px auto 22.5px;
-    grid-template-columns: 60px 60px 200px 150px auto;
+    grid-template-rows: 25px auto 25px;
+    grid-template-columns: 100px 60px 60px 60px 200px;
     grid-template-areas: 
-        'noteTitle noteTitle noteTitle noteTitle .'
-        'noteContent noteContent noteContent noteContent .'
-        'noteSubmit getTimestamp timestamp . .'
+        'noteTitle noteTitle noteTitle noteTitle noteTitle'
+        'noteContent noteContent noteContent noteContent noteContent'
+        'formLabel noteSubmit clearForm getTimestamp timestamp'
+}
+
+#formLabel {
+    margin-left: .75em;
+    margin-top: .25em;
+    font-weight: bold;
+    grid-area: formLabel
 }
 
 #noteTitle {
@@ -32,14 +39,31 @@
 
 #noteSubmit {
     grid-area: noteSubmit;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: solid .25px ghostwhite;
+}
+
+#clearForm {
+    grid-area: clearForm;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: solid .25px ghostwhite;
 }
 
 #getTimestamp {
     grid-area: getTimestamp;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: solid .25px ghostwhite;
 }
 
 .timestamp {
     padding-left: 2px;
+    padding-top: 2.75px;
     grid-area: timestamp;
 }
 
@@ -77,7 +101,27 @@
 }
 
 #noteList {
-    border: solid black 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     padding-left: .75em;
-    padding-top: .75em;
+    padding-top: 0;
+}
+
+.note-list__timestamp {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: solid .5px ghostwhite;
+}
+
+.note {
+    display: grid;
+    grid-template-columns: 60px auto;
+    grid-template-rows: 25px;
+}
+
+.note-list__note {
+    margin-top: .2em;
+    margin-left: .5em;
 }

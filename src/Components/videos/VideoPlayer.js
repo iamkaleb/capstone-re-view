@@ -15,6 +15,7 @@ const VideoPlayer = props => {
     const [isLoading, setIsLoading] = useState(false);
     const [played, setPlayed] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [edit, setEdit] = useState(false);
 
     // Load video player w/ url after first render
     useEffect(() => {
@@ -59,9 +60,7 @@ const VideoPlayer = props => {
         setIsLoading(false)
     };
 
-
-
-    // Post formNote to DB and get notes if noteForm validation passes
+    // If note form validation passes: Edit: put/update form note / New note: post form note to DB. Get notes.
     const constructNote = event => {
         event.preventDefault();
 
@@ -76,12 +75,21 @@ const VideoPlayer = props => {
                     window.alert('You already have a timestamp there!')
                 } else {
                     setIsLoading(true);
+                    if (edit) {
+                        dataManager.update('notes', formNote)
+                        .then(getNotes)
+                        .then(() => {
+                            clearForm();
+                            setIsLoading(false)
+                        })
+                    } else {
                     dataManager.post('notes', formNote)
                         .then(getNotes)
                         .then(() => {
-                            setFormNote({noteTitle: '', noteContent: '', timestamp: 0, videoId: props.videoId, userId: parseInt(sessionStorage.getItem('user'))});
+                            clearForm();
                             setIsLoading(false)
                         })
+                    }
                 }
             })
         }
@@ -105,6 +113,16 @@ const VideoPlayer = props => {
                 })
     };
 
+    const toggleEdit = () => {
+        if (displayNote.hasOwnProperty('id')) {
+            setFormNote(displayNote);
+            if (!edit) {
+                setEdit(true)
+            };
+        };
+    };
+
+    // Delete displayed note from DB, clear display note, and set notes
     const deleteNote = id => {
         dataManager.delete('notes', id)
         .then(() => {
@@ -122,6 +140,23 @@ const VideoPlayer = props => {
                 })
         })
     };
+
+    // Clear form note
+    const clearForm = () => {
+        setFormNote(
+            {noteTitle: '', 
+            noteContent: '', 
+            timestamp: 0, 
+            videoId: props.videoId, 
+            userId: parseInt(sessionStorage.getItem('user'))}
+        );
+
+        if (edit) {
+            setEdit(false)
+        }
+    }
+
+
 
     return (
         <article className='video-player'>
@@ -155,12 +190,28 @@ const VideoPlayer = props => {
                 cols="50"
                 />
 
+                <p id='formLabel'>
+                {edit
+                ? 'Edit note'
+                : 'New note'}
+                </p>
+
                 <button
                     id='noteSubmit'
                     type='submit'
                     onClick={constructNote}
                     disabled={isLoading}
-                >Submit</button>
+                >
+                {edit
+                ? 'Edit'
+                : 'Submit'}
+                </button>
+
+                <button
+                    id='clearForm'
+                    type='button'
+                    onClick={clearForm}
+                >Clear</button>
 
                 <button
                     id='getTimestamp'
@@ -171,12 +222,12 @@ const VideoPlayer = props => {
                 <Duration seconds={formNote.timestamp} className='timestamp'/>
             </form>
 
-            <NoteCard displayNote={displayNote} deleteNote={deleteNote}/>
+            <NoteCard displayNote={displayNote} deleteNote={deleteNote} toggleEdit={toggleEdit}/>
 
             <section id="noteList">
                 {notes.sort((a, b) => a.timestamp - b.timestamp).map(note => {
                     return <div className="note" key={note.id}>
-                                <button type="button" onClick={() => player.current.seekTo(note.timestamp)}><Duration seconds={note.timestamp}/></button><p>{note.noteTitle}</p>
+                                <button className='note-list__timestamp' type="button" onClick={() => player.current.seekTo(note.timestamp)}><Duration seconds={note.timestamp}/></button><p className='note-list__note'>{note.noteTitle}</p>
                             </div>
                         })}
             </section>
