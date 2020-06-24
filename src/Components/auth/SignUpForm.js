@@ -37,7 +37,7 @@ const SignUpForm = props => {
 
 return (
     <>
-        <form>
+        <form className='modal'>
             <label htmlFor='username'>Username </label>
             <input onChange={props.handleSettingCredentials} type='text' id='username' />
 
