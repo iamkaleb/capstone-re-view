@@ -28,10 +28,15 @@ const DeleteVideoConfirm = props => {
     }
 
     return (
-        <article className='modal'>
-            <p>Delete {video.videoTitle}?</p>
-            <button type='button' onClick={deleteVideo}>Delete</button>
-            <button type='button' onClick={props.toggleDeleteVideoConfirm}>Cancel</button>
+        <article className='confirmation-modal'>
+            <form className='form-content'>
+                <h3 className='form-title'>Delete {video.videoTitle}?</h3>
+
+                <div className='form-buttons'>
+                    <button type='button' onClick={deleteVideo}>Delete</button>
+                    <button type='button' onClick={props.toggleDeleteVideoConfirm}>Cancel</button>
+                </div>
+            </form>
         </article>
 
     )

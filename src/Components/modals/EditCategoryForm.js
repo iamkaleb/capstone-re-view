@@ -45,13 +45,22 @@ const EditCategoryForm = props => {
     };
 
 return (
-        <form className='modal'>
-            <label htmlFor='categoryTitle'>Edit category</label>
-            <input onChange={handleSettingCategory} value={category.categoryTitle} type='text' id='categoryTitle'/>
+    <article className='category-modal'>
+        <form className='form-content'>
 
-            <button type='submit' id='editCategory' onClick={handleEditCategory}>Edit</button>
-            <button id='cancel' onClick={props.toggleEditCategoryForm}>Cancel</button>
+            <h3 className='form-title'>Edit category</h3>
+
+            <div className='form-element'>
+                <input onChange={handleSettingCategory} value={category.categoryTitle} type='text' id='categoryTitle'/>
+            </div>
+
+            <div className='form-buttons'>
+                <button type='submit' id='editCategory' onClick={handleEditCategory}>Edit</button>
+                <button id='cancel' onClick={props.toggleEditCategoryForm}>Cancel</button>
+            </div>
+        
         </form>
+    </article>
 )
 }
 
