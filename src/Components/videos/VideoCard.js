@@ -11,7 +11,7 @@ const VideoCard = props => {
         <div className='video-card'>
             <div className='video-card-content'>
                     <div className='card-body' onClick={() => props.history.push(`/videos/${props.categoryTitle}/${props.video.id}`)}>
-                        <img src={imagePath()} width={250} alt='thumbnail' />
+                        <img src={imagePath()} width={240} alt='thumbnail' />
                         <h4>{props.video.videoTitle}</h4>
                     </div>
 

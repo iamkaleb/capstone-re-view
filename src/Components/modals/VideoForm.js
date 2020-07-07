@@ -84,7 +84,11 @@ const VideoForm = props => {
                     dataManager.post('videos', newVideo)
                     .then(postedVideo => {
                         dataManager.get('categories', postedVideo.categoryId)
-                        .then(category => props.history.push(`/videos/${category.categoryTitle}`))
+                        .then(category => {
+                            props.toggleVideoForm();
+                            props.history.push(`/videos/${category.categoryTitle}`)
+
+                        })
                     })
                 })
                 }
