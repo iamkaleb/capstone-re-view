@@ -1,0 +1,27 @@
+#welcomePage {
+    display: flex;
+    justify-content: center;
+    align-content: center;;
+    height: 100%;
+}
+
+#welcomeContent {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+button {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: solid black 1.5px;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: white;
+    color: black;
+  }

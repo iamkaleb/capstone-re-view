@@ -24,18 +24,28 @@ const LoginForm = props => {
     }
 
 return (
-    <>
-        <form>
+    <article className='login-modal'>
+        <form className='form-content'>
+
+        <h3 className='form-title'>Login</h3>
+
+        <div className='form-element'>
             <label htmlFor='username'>Username </label>
             <input onChange={props.handleSettingCredentials} type='text' id='username' />
+        </div>
 
+        <div className='form-element'>
             <label htmlFor='password'>Password </label>
-            <input onChange={props.handleSettingCredentials} type='text' id='password' />
+            <input onChange={props.handleSettingCredentials} type='password' id='password' />
+        </div>
 
+        <div className='form-buttons'>
             <button type='submit' id='sign-up' onClick={handleLogin}>Log in</button>
             <button id='cancel' onClick={props.toggleLoginForm}>Cancel</button>
+        </div>
+
         </form>
-    </>
+    </article>
 )
 }
 

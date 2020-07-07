@@ -36,21 +36,33 @@ const SignUpForm = props => {
     }
 
 return (
-    <>
-        <form>
+    <article className='sign-up-modal'>
+        <form className='form-content'>
+
+        <h3 className='form-title'>Sign Up</h3>
+
+        <div className='form-element'>
             <label htmlFor='username'>Username </label>
             <input onChange={props.handleSettingCredentials} type='text' id='username' />
+        </div>
 
+        <div className='form-element'>
             <label htmlFor='password'>Password </label>
-            <input onChange={props.handleSettingCredentials} type='text' id='password' />
+            <input onChange={props.handleSettingCredentials} type='password' id='password' />
+        </div>
 
+        <div className='form-element'>
             <label htmlFor='confirmPassword'>Confirm Password </label>
-            <input onChange={handleSettingConfirmPass} type='text' id='confirmPassword' />
+            <input onChange={handleSettingConfirmPass} type='password' id='confirmPassword' />
+        </div>
 
+        <div className='form-buttons'>
             <button type='submit' id='sign-up' onClick={handleSignUp}>Sign up</button>
             <button id='cancel' onClick={props.toggleSignUpForm}>Cancel</button>
+        </div>
+
         </form>
-    </>
+    </article>
 )
 }
 

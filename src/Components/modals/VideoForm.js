@@ -84,7 +84,11 @@ const VideoForm = props => {
                     dataManager.post('videos', newVideo)
                     .then(postedVideo => {
                         dataManager.get('categories', postedVideo.categoryId)
-                        .then(category => props.history.push(`/videos/${category.categoryTitle}`))
+                        .then(category => {
+                            props.toggleVideoForm();
+                            props.history.push(`/videos/${category.categoryTitle}`)
+
+                        })
                     })
                 })
                 }
@@ -94,27 +98,43 @@ const VideoForm = props => {
     useEffect(() => {props.getCategories()});
 
 return (
-    <>
-        <form className='modal'>
-            <label>Add Video</label>
+    <article className='modal'>
+        <form className='form-content'>
+            <h3 className='form-title'>Add Video</h3>
+            <hr />
 
-            <label htmlFor='videoTitle'>Title</label>
-            <input onChange={handleSettingVideo} type='text' id='videoTitle' />
+            <div className='form-element'>
+                <label htmlFor='videoTitle'>Title</label>
+                <input onChange={handleSettingVideo} type='text' id='videoTitle' />
+            </div>
             
-            <label htmlFor='url'>URL</label>
-            <input onChange={handleSettingVideo} type='url' id='url' />
+            <div className='form-element'>
+                <label htmlFor='url'>URL</label>
+                <input onChange={handleSettingVideo} type='url' id='url' />
+            </div>
 
-            <select value={video.categoryId} id="categoryId" onChange={handleSettingVideo}>
-                <option value={0}>Choose category</option>
-                {props.categories.map(mappedCategory => <option key={mappedCategory.id} value={mappedCategory.id}>{mappedCategory.categoryTitle}</option>)}
-            </select>
+            <fieldset className='form-element'>
+                <legend>Category</legend>
+                <div className='fieldset-element__top'>
+                    <select value={video.categoryId} id="categoryId" onChange={handleSettingVideo}>
+                        <option value={0}>Choose category</option>
+                        {props.categories.map(mappedCategory => <option key={mappedCategory.id} value={mappedCategory.id}>{mappedCategory.categoryTitle}</option>)}
+                    </select>
+                </div>
 
-            <input onChange={handleSettingCategory} type='text' placeholder='New category' id='categoryTitle' />
+                <span className='fieldset-element'>or</span>
 
-            <button type='submit' disabled={isLoading} id='addVideo' onClick={handleAddVideo}>Add</button>
-            <button id='cancel' disabled={isLoading} onClick={props.toggleVideoForm}>Cancel</button>
+                <div className='fieldset-element'>
+                    <label htmlFor='newCategory'>New category</label>
+                    <input onChange={handleSettingCategory} type='text' placeholder='New category' id='categoryTitle' />
+                </div>
+            </fieldset>
+            <div className='form-buttons'>
+                <button type='submit' disabled={isLoading} id='addVideo' onClick={handleAddVideo}>Add</button>
+                <button id='cancel' disabled={isLoading} onClick={props.toggleVideoForm}>Cancel</button>
+            </div>
         </form>
-    </>
+    </article>
 )
 }
 

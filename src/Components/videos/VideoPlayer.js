@@ -225,6 +225,7 @@ const VideoPlayer = props => {
             <NoteCard displayNote={displayNote} deleteNote={deleteNote} toggleEdit={toggleEdit}/>
 
             <section id="noteList">
+                <h3>Timestamps</h3>
                 {notes.sort((a, b) => a.timestamp - b.timestamp).map(note => {
                     return <div className="note" key={note.id}>
                                 <button className='note-list__timestamp' type="button" onClick={() => player.current.seekTo(note.timestamp)}><Duration seconds={note.timestamp}/></button><p className='note-list__note'>{note.noteTitle}</p>

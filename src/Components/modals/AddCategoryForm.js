@@ -29,13 +29,22 @@ const AddCategoryForm = props => {
     }
 
 return (
-        <form className='modal'>
-            <label htmlFor='categoryTitle'>Add category</label>
-            <input onChange={handleSettingCategory} type='text' id='categoryTitle' />
+        <article className='category-modal'>
+            <form className='form-content'>
 
-            <button type='submit' id='addCategory' onClick={handleAddCategory}>Add</button>
-            <button id='cancel' onClick={props.toggleAddCategoryForm}>Cancel</button>
-        </form>
+            <h3 className='form-title'>Add category</h3>
+
+            <div className='form-element'>
+                <input onChange={handleSettingCategory} type='text' id='categoryTitle' />
+            </div>
+
+            <div className='form-element'>
+                <button type='submit' id='addCategory' onClick={handleAddCategory}>Add</button>
+                <button id='cancel' onClick={props.toggleAddCategoryForm}>Cancel</button>
+            </div>
+            
+            </form>
+        </article>
 )
 }
 

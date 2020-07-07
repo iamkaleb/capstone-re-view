@@ -106,24 +106,38 @@ const EditVideoForm = props => {
     useEffect(() => {props.getCategories()});
 
 return (
-    <>
-        <form className='modal'>
-            <label>Add Video</label>
+    <article className='edit-video-modal'>
+        <form className='form-content'>
+            <h3 className='form-title'>Edit Video</h3>
+            <hr />
 
-            <label htmlFor='videoTitle'>Title</label>
-            <input onChange={handleSettingVideo} value={video.videoTitle} type='text' id='videoTitle' />
+            <div className='form-element'>
+                <label htmlFor='videoTitle'>Title</label>
+                <input onChange={handleSettingVideo} value={video.videoTitle} type='text' id='videoTitle' />
+            </div>
 
-            <select value={video.categoryId} id="categoryId" onChange={handleSettingVideo}>
-                <option value={0}>Choose category</option>
-                {props.categories.map(mappedCategory => <option key={mappedCategory.id} value={mappedCategory.id}>{mappedCategory.categoryTitle}</option>)}
-            </select>
+            <fieldset className='form-element'>
+                <legend>Category</legend>
+                <div className='fieldset-element__top'>
+                    <select value={video.categoryId} id="categoryId" onChange={handleSettingVideo}>
+                        <option value={0}>Choose category</option>
+                        {props.categories.map(mappedCategory => <option key={mappedCategory.id} value={mappedCategory.id}>{mappedCategory.categoryTitle}</option>)}
+                    </select>
+                </div>
 
-            <input onChange={handleSettingCategory} type='text' placeholder='New category' id='categoryTitle' />
+                <span className='fieldset-element'>or</span>
+                <div className='fieldset-element'>
+                    <label htmlFor='newCategory'>New category</label>
+                    <input onChange={handleSettingCategory} type='text' placeholder='New category' id='categoryTitle' />
+                </div>
+            </fieldset>
 
-            <button type='submit' disabled={isLoading} id='addVideo' onClick={handleEditVideo}>Edit</button>
-            <button id='cancel' disabled={isLoading} onClick={props.toggleEditVideoForm}>Cancel</button>
+            <div className='form-buttons'>
+                <button type='submit' disabled={isLoading} id='addVideo' onClick={handleEditVideo}>Edit</button>
+                <button id='cancel' disabled={isLoading} onClick={props.toggleEditVideoForm}>Cancel</button>
+            </div>
         </form>
-    </>
+    </article>
 )
 }
 

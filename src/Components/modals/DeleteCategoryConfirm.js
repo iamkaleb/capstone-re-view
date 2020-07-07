@@ -28,10 +28,16 @@ const DeleteCategoryConfirm = props => {
     }
 
     return (
-        <article className='modal'>
-            <p>Delete {category.categoryTitle} and all related videos?</p>
-            <button type='button' onClick={deleteCategory}>Delete</button>
-            <button type='button' onClick={props.toggleDeleteCategoryConfirm}>Cancel</button>
+        <article className='confirmation-modal'>
+            <form className='form-content'>
+                <h3 className='form-title'>Delete {category.categoryTitle} and all related videos?</h3>
+
+                <div className='form-buttons'>
+                    <button type='button' onClick={deleteCategory}>Delete</button>
+                    <button type='button' onClick={props.toggleDeleteCategoryConfirm}>Cancel</button>
+                </div>
+            
+            </form>
         </article>
 
     )

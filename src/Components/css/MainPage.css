@@ -13,8 +13,11 @@
 .list-view {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     padding-left: 1em;
+    padding-right: 10em;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
 }
 
 .category-title {
@@ -48,8 +51,6 @@
 
 .video-card {
     border-radius: 5px;
-    border: solid 1px black;
-    background-color: ghostwhite;
     margin-bottom: 2em;
     flex: 0 1 24%;
 }
@@ -62,21 +63,6 @@
     margin-top: 0;
     margin-bottom: .5em;
     font-weight: bold;
-}
-
-.modal {
-    background: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    width: 300px;
-    height: 300px;
-    box-shadow: 0 5px 10px 2px rgba(195,192,192,.5);
-    padding: 20px;
-    text-align: center;
 }
 
 .video-card button {
@@ -93,3 +79,4 @@
     margin: .1em;
     width: 100%;
 }
+
