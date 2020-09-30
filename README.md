@@ -32,3 +32,7 @@ From college lectures to theatre audition tapes, sports analysis to cooking show
 - React Router DOM
 - ReactPlayer
 - CSS
+
+## Wireframe and ERD
+![Image of wireframe](https://i.imgur.com/kWpxaM2.png)
+![Image of ERD](https://i.imgur.com/mZdcP00.png)
