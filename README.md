@@ -5,8 +5,19 @@
 Re-view is a personalized, interactive arena for users to:
 
 1. Save and categorize videos from YouTube, Vimeo, Facebook, or another major video hosting website
+
+![Image of saved video collection]
+https://i.imgur.com/RHhKhbB.png
+
 2. Create timestamped annotations that will appear alongside the video on subsequent viewings
+
+![Image of timestamp form]
+(https://i.imgur.com/zxMyoos.png)
+
 3. Navigate to these annotated video sections at the push of a button
+
+![Image of save timestamps]
+(https://i.imgur.com/sb77vIQ.png)
 
 From college lectures to theatre audition tapes, sports analysis to cooking shows, Re-view was built to enhance your ability to review and analyze videos of any kind.
 
